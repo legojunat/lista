@@ -1,0 +1,15 @@
+{
+  "name": "lista",
+  "version": "0.0.1",
+  "description": "Tool to arrange Lego parts into HTML with BrickLink images.",
+  "main": "lista.js",
+  "scripts": {
+    "start": "node lista.js > lista.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jussi Kinnula <jussi.kinnula@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "^5.5.3"
+  }
+}

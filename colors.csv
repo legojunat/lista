@@ -1,0 +1,280 @@
+material,legoId,legoName,legoAbbreviation,brickColorstream,bricklinkId,bricklinkName,lDrawId,lDrawName,peeronName,otherName,rarity,firstSeen,lastSeen,notes,hex
+Solid,1,White,White,Flickr,1,White,15,White,White,,Many,1950,Present,,f4f4f4
+Solid,2,Grey,Grey,Flickr,9,Light Gray,7,Light_Gray,OldGray,Old (Light) Gray,Many,1954,2004,Replaced by 194 Medium Stone Gray starting in 2003.,8a928d
+Solid,3,Light Yellow,L.Yel,Flickr,33,Light Yellow,18,Light_Yellow,LtYellow,,Several,1994,2011,Was rarely used after 2003. Largely replaced by 226 Cool Yellow around 2004.,ffd67f
+Solid,4,Brick Red,,Flickr,106,Fabuland Brown,450,Fabuland_Brown,FabuBrown,,Few,1979,1989,,f2705e
+Solid,5,Brick Yellow,Brick-Yel,Flickr,2,Tan,19,Tan,Tan,Sand,Many,1981,Present,Used in LegoLand parks long before in sets,b0a06f
+Solid,6,Light Green,L.Green,Flickr,38,Light Green,17,Light_Green,LtGreen,Mint,Few,1992,2007,,add9a8
+Solid,7,Orange,,,,,,,,,,,,,ff8500
+Solid,8,Cobalt Blue,,,,,,,,,,,,,8c00ff
+Solid,9,Light Reddish Violet,L.Redviol,Flickr,23,Pink,13,Pink,Pink,,Several,1994,2006,Replaced 17 Rose starting in 1994. Replaced by 222 Light Purple around 2004.,f6a9bb
+Solid,11,Pastel Blue,PastBlu,Flickr,72,Maersk Blue,313,Maersk_Blue,MaerskBlue,,Several,1974,2011,,abd9ff
+Solid,12,Light Orange Brown,L.Orabrown,Flickr,29,Earth Orange,366,Earth Orange,EarthOrange,,Some,1979,2008,,d86d2c
+Solid,13,Red Orange,,Flickr,,,,,,,Few,1979,?,"Possibly Fabuland Red (early rust, e.g. duplo cow)",ff8014
+Solid,14,Pastel Green,,Flickr,,,,,FabuLime,,Few,1982,1989,"Possibly Fabuland Lime (Fab. Crocodiles, early duplo lime parts)",78fc78
+Solid,15,Lemon,,Flickr,,,,,,Lemon-Lime,Few,1992,1992,"Duplo ""Lemon-Lime"" from 2552",fff230
+Solid,16,Pink,,Flickr,94,Medium Dark Pink,351,Medium_Dark_Pink,DuploRose,,Few,1992,1996,,ff879c
+Solid,17,Rose,,Flickr,,,,,ParaPink,Paradisa Pink,Some,1991,1995,"Often listed as ""Light Pink"" on BL. Replaced by 9 Light Reddish Violet starting in 1994.",ff9494
+Solid,18,Nougat,Nougat,Flickr,28,Flesh,92,Flesh,Flesh,,Some,1979,Present,,bb805a
+Solid,19,Light Brown,,Flickr,160,Fabuland Orange,,,FabuOrange,,Few,1987,1987,"Possibly Fabuland Orange (part 2040), Duplo figure 4555pb260",cf8a47
+Solid,21,Bright Red,Br.Red,Flickr,5,Red,4,Red,Red,,Many,1950,Present,,b40000
+Solid,22,Medium Reddish Violet,Md.Redviol,Flickr,47,Dark Pink,5,Dark_Pink,,,Several,1994,?,Replaced by 221 Bright Purple around 2004-ish,d05098
+Solid,23,Bright Blue,Br.Blue,Flickr,7,Blue,1,Blue,Blue,,Many,1950,Present,,1e5aa8
+Solid,24,Bright Yellow,Br.Yel,Flickr,3,Yellow,14,Yellow,Yellow,,Many,1950,Present,,fac80a
+Solid,25,Earth Orange,Earth-Ora,Flickr,8,Brown,6,Brown,OldBrown,,Many,1978,2006,Replaced by 192 Reddish Brown starting in 2003.,543324
+Solid,26,Black,Black,Flickr,11,Black,0,Black,Black,,Many,1958,Present,,1b2a34
+Solid,27,Dark Grey,Dk.Grey,Flickr,10,Dark Gray,8,Dark_Gray,OldDkGray,"Old Dark Gray, Coke",Many,1978,2006,Replaced by 199 Dark Stone Grey starting in 2003.,545955
+Solid,28,Dark Green,Dk.Green,Flickr,6,Green,2,Green,Green,,Many,1950,Present,,00852b
+Solid,29,Medium Green,Md.Green,Flickr,37,Medium Green,74,Medium_Green,MdGreen,,Some,1994,2004,,7fc475
+Solid,30,Multicombination,Multicombination,Flickr,,,,,,,,,,"Multicombination is usually used by TLG to refer to marbled/multiple color parts. Abbreviations include 1.Mult, 2.Mult, 3.Mult, 4.Mult and I-M-L.",
+Solid,36,Light Yellowish Orange,,Flickr,96,Very Light Orange,68,Very_Light_Orange,PaleOrange,,Few,1999,2001,"Striped cat, Eeyore, several LegoLand-only bricks and plates.",fdc383
+Solid,37,Bright Green,Br.Green,Flickr,36,Bright Green,10,Bright_Green,BtGreen,,Several,1995,Present,,58ab41
+Solid,38,Dark Orange,Dk.Ora,Flickr,68,Dark Orange,484,Dark_Orange,DkOrange,,Many,1994,Present,,91501c
+Solid,39,Light Bluish Violet,L.Blueviol,Flickr,44,Light Violet,20,Light_Violet,LtViolet,,Some,1994,2004,,afbed6
+Solid,45,Light Blue,L.Blue,Flickr,62,Light Blue,9,Light_Blue,LtBlue,,Few,1995,2002? 3?,Replaced by 212 Light Royal Blue in 2004.,97cbd9
+Solid,100,Light Red,,Flickr,26,Light Salmon,100,Light_Salmon,LtSalmon,,Some,1997,1999,Only used in Scala sets.,f9b7a5
+Solid,101,Medium Red,,Flickr,25,Salmon,12,Salmon,Salmon,,Some,1997,1999,Only used in Scala sets.,f06d61
+Solid,102,Medium Blue,Md.Blue,Flickr,42,Medium Blue,73,Medium_Blue,MdBlue,,Many,1997,Present,,7396c8
+Solid,103,Light Grey,L.Grey,Flickr,49,Very Light Gray,503,Very_Light_Gray,ScalaGray,,Few,1997,2004,Replaced by 208 Light Stone Grey in 2004.,bcb4a5
+Solid,104,Bright Violet,Br. Violet,Flickr,24,Purple,22,Purple,Purple,,Several,1997,2006,,671fa1
+Solid,105,Bright Yellowish Orange,Br.Yelora,Flickr,31,Medium Orange,462,Light_Orange,MdOrange,,Several,1997,2008,Replaced by 191 Flame Yellowish Orange starting in 2004.,f58624
+Solid,106,Bright Orange,Br.Orange,Flickr,4,Orange,25,Orange,Orange,,Many,1998,Present,Does Duplo 9090 really have parts in these colors that early?,d67923
+Solid,107,Bright Bluish Green,Br.Bluegreen,Flickr,39,Dark Turquoise,3,Teal,Teal,,Many,1998,2005,,069d9f
+Solid,108,Earth Yellow,,,,,,,,,,,,,56472f
+Solid,110,Bright Bluish Violet,Br.Blueviol,Flickr,43,Violet,110,Violet,Violet,,Some,1999,2004,,26469a
+Solid,112,Medium Bluish Violet,Ml.Blueviol,Flickr,73,Medium Violet,112,Medium_Violet,,,Few,1999,?,Replaced by 219 Lilac,4861ac
+Solid,115,Medium Yellowish Green,Md.Yel-Green,Flickr,76,Medium Lime,115,Medium_Lime,MdLime,,Few,1998,2005,,b7d425
+Solid,116,Medium Bluish Green,Md.Bl-Green,Flickr,40,Light Turquoise,11,Turquoise,LtTeal,,Few,1998,2003,,00aaa4
+Solid,118,Light Bluish Green,L.Blue-Green,Flickr,41,Aqua,118,Aqua,Aqua,,Some,1998,2006,,9cd6cc
+Solid,119,Bright Yellowish Green,Br.Yel-Green,Flickr,34,Lime,27,Lime,Lime,,Many,2000,Present,"Were ""lime"" parts prior to 2000 Lime or FabuLime?",a5ca18
+Solid,120,Light Yellowish Green,L.Yel-Green,Flickr,35,Light Lime,120,Light_Lime,LtLime,,Few,1998,2007,,deea92
+Solid,121,Medium Yellowish Orange,,Flickr,32,Light Orange,,,LtOrange,,Few,1998,2004,,f89a39
+Solid,123,Bright Reddish Orange,Br.Red.Orang,Flickr,,,,,,,Few,2003,2004,Duplo Salmon (3513),ee5434
+Solid,124,Bright Reddish Violet,Br.Red-Viol.,Flickr,71,Magenta,26,Magenta,Magenta,,Many,2000,Present,,901f76
+Solid,125,Light Orange,,,,,125,Light_Orange (?),,,,,,http://www.brickshelf.com/cgi-bin/gallery.cgi?i=513355,f9a777
+Solid,128,Dark Nougat,Dark Nougat,Flickr,,,128,Dark_Nougat,DkNougat,,Few,2001,2002,Vernon Dursley hair (not sure about dates),ad6140
+Solid,133,Neon Orange,,Flickr,,,,,,,Few,1997,2001,"UFO watch, Cyclone Master watch",ef5828
+Solid,134,Neon Green,,Flickr,,,,,,,Few,1997,2001,"UFO watch, Cyclone Master watch",cddd34
+Solid,135,Sand Blue,Sand Blue,Flickr,55,Sand Blue,379,Sand_Blue,SandBlue,,Some,2001,Present,,70819a
+Solid,136,Sand Violet,Sand Violet,Flickr,54,Sand Purple,373,Sand_Purple,SandPurple,,Few,2001,2002,,75657d
+Solid,137,Medium Orange,,,,,,,,,,,,,f48147
+Solid,138,Sand Yellow,Sand Yellow,Flickr,69,Dark Tan,28,Dark_Tan,DkTan,,Many,2002,Present,,897d62
+Solid,140,Earth Blue,Earth Blue,Flickr,63,Dark Blue,272,Dark_Blue,NavyBlue,,Many,2001,Present,,19325a
+Solid,141,Earth Green,Earth Green,Flickr,80,Dark Green,288,Dark_Green,DkGreen,,Many,2002,Present,,00451a
+Solid,144,Dark Army Green,,Flickr,,,,,,,Few,2000,2000,X-Tracker watch,887f4a
+Solid,151,Sand Green,Sand Green,Flickr,48,Sand Green,378,Sand_Green,SandGreen,,Many,2000,Present,,708e7c
+Solid,153,Sand Red,Sand Red,Flickr,58,Sand Red,335,Sand_Red,SandRed,,Several,2001,2004,,88605e
+Solid,154,Dark Red,New Dark Red,Flickr,59,Dark Red,320,Dark_Red,DkRed,,Many,2001,Present,Reformulated around 2010 to be more consistent. Known as both Dark Red and New Dark Red.,720012
+Solid,163,(dull sand red),,,,,,,,,,,,,
+Solid,180,Curry,Curry,Flickr,161,Dark Yellow,,,Curry,Mustard yellow,Few,2004,2005,"Duplo ochre yellow (3011pb05, among other parts)",dd982e
+Solid,188,Tiny Blue,,Flickr,,,,,,,Few,2003,2004,"Tiny from Little Robots (Duplo theme), Tiny Robots gear, Tiny's cart lid",009ece
+Solid,190,Fire Yellow,,Flickr,,,,,,,Few,2003,2004,All Yellow Clikits parts. Extremely close to Bright Yellow.,ffcf0b
+Solid,191,Flame Yellowish Orange,Fl. Yell-Ora,Flickr,110,Bright Light Orange,191,Bright_Light_Orange,BtLtOrange,Keetorange,Many,2004,Present,Replaced 105 Bright Yellowish Orange starting in 2004.,fcac00
+Solid,192,Reddish Brown,Red. Brown,Flickr,88,Reddish Brown,70,Reddish_Brown,RedBrown,New Brown,Many,2003,Present,Replaced 25 Earth Orange starting in 2003.,5f3109
+Solid,193,Flame Reddish Orange,,,,,,,,,,,,,ec441d
+Solid,194,Medium Stone Grey,Med. St-Grey,Flickr,86,Light Bluish Gray,71,Stone_Gray,MdStone,"(Light) Bley, New (Light) Gray",Many,2003,Present,Replaced 2 Grey starting in 2003.,969696
+Solid,195,Royal Blue,R.Blue,Flickr,97,Blue-Violet,89,Blue_Violet,RoyalBlue,,Several,2004,2005,,1c58a7
+Solid,196,Dark Royal Blue,Dk. R.Blue,Flickr,109,Dark Blue-Violet,23,Dark_Blue_Violet,DkRoyalBlue,,Few,2004,2006,,0e3e9a
+Solid,197,Bright Lilac,,Flickr,,,,,,,Few,2003,2003,http://www.bricklink.com/catalogItemIn.asp?P=44611&colorID=43&in=A,312b87
+Solid,198,Bright Reddish Lilac,Br. Red. Lilac,Flickr,93,Light Purple,69,Light_Purple,BtPurple,,Few,2004,2007,,8a12a8
+Solid,199,Dark Stone Grey,Dk. St. Grey,Flickr,85,Dark Bluish Gray,72,Dark_Stone_Gray,DkStone,"Dark Bley, New Dark Gray",Many,2003,Present,Replaced 27 Dark Grey starting in 2003.,646464
+Solid,208,Light Stone Grey,Lgh. St. Grey,Flickr,99,Very Light Bluish Gray,151,Very_Light_Bluish_Gray,LtStone,,Some,2004,2010,Replaced 103 Light Grey in 2004.,c8c8c8
+Solid,209,Dark Curry,,,,,,,,,,,,,a47624
+Solid,210,Faded Green,,Flickr,,,,,,,Few,2003,2003,http://www.bricklink.com/catalogItem.asp?P=44513,468a5f
+Solid,211,Turquoise,,,,,,,,,,,,,3fb6a9
+Solid,212,Light Royal Blue,Lgh. Roy. Blue,Flickr,105,Bright Light Blue,212,Bright_Light_Blue,LtRoyalBlue,,Several,2004,Present,Replaced 45 Light Blue around 2004,9dc3f7
+Solid,213,Medium Royal Blue,,Flickr,,,,,,,Few,2004,2004,http://www.bricklink.com/catalogItemIn.asp?P=44688&colorID=73&in=A,476fb6
+Solid,216,Rust,,Flickr,,,216,Rust,Rust,,Few,2004,2005,"http://www.bricklink.com/catalogItem.asp?P=51163cx1, also ladle, http://www.bricklink.com/catalogItem.asp?P=48394",872b17
+Solid,217,Brown,Brown,Flickr,91,Dark Flesh,86,Dark_Flesh,DkFlesh,,Some,2004,2006,,7b5d41
+Solid,218,Reddish Lilac,Red. Lilac,Flickr,,,218,Medium Purple,,,Few,2005,2005,Clikits (like lavender),8e5597
+Solid,219,Lilac,Lilac,Flickr,73,Medium Violet,219,Medium Violet,MdViolet,,Few,2003,2005,Replaced 112 Medium Bluish Violet,564e9d
+Solid,220,Light Lilac,Lgh. Lilac,Flickr,,,,,,,Few,2004,2006,Duplo figure 47394pb028 http://brickset.com/parts/browse/colours/?colour=Light%20Lilac,9195ca
+Solid,221,Bright Purple,Br. Purple,Flickr,47,Dark Pink,5,Dark_Pink,DkPink,New Dark Pink,Many,?,Present,Replaced 22 Medium Reddish Violet at some point around 2004-ish,d3359d
+Solid,222,Light Purple,Lgh. Purple,Flickr,104,Bright Pink,29,Bright_Pink,LtPurple,,Many,2004,Present,Replaced 9 Light Reddish Violet around 2004.,ff9ecd
+Solid,223,Light Pink,,,,,77,Light_Pink,,,,,,,f17880
+Solid,224,Light Brick Yellow,,Flickr,,,,,,,Few,2004,2006,"Momo (Avatar lemur), hair of Duplo fig 47205pb006",f3c988
+Solid,225,Warm Yellowish Orange,Wa. Yell. Ora,Flickr,,,,,,,Few,2004,2004,Duplo Plate 8x16 from 4689,faa964
+Solid,226,Cool Yellow,Cool Yel.,Flickr,103,Bright Light Yellow,226,Bright_Light_Yellow,CoolYellow,,Several,2004,Present,Largely replaced 3 Light Yellow around 2004,ffec6c
+Solid,232,Dove Blue,Do. Blue,Flickr,87,Sky Blue,232,Sky_Blue,DoveBlue,,Some,2004,2007,,77c9d8
+Solid,233,Light Faded Green,,Flickr,,,,,,,,2004,2004,,60ba76
+Solid,268,Medium Lilac,M. Lilac,Flickr,89,Dark Purple,85,Dark_Purple,MdLilac,,Many,2004,Present,Knight Bus,441a91
+Solid,269,Tiny-Medium Blue,,Flickr,,,,,,,Few,2004,2004,http://www.bricklink.com/catalogItem.asp?P=44403c02,3e95b6
+Solid,283,Light Nougat,L.Nougat,Flickr,90,Light Flesh,78,Light_Flesh,LtFlesh,,Some,2003,Present,,ffc995
+Solid,295,Flamingo Pink,Fla.Pink,Flickr,,,295,Flamingo Pink,RedPink,,Few,2006,2006,clikits135,ff94c2
+Solid,308,Dark Brown,Dk. Brown,Flickr,120,Dark Brown,308,Dark_Brown,DkBrown,,Many,2008,Present,,372100
+Solid,312,Medium Nougat,M. Nougat,Flickr,150,Medium Dark Flesh,84,Medium_Dark_Flesh,MdDkFlesh,"Prince of Persia Color, Caramel, Nougat",Many,2010,Present,,aa7d55
+Solid,321,Dark Azur,Dark Azur,Flickr,153,Dark Azure,321,Dark_Azure,DkAzure,ADU Blue,Several,2011,Present,,469bc3
+Solid,322,Medium Azur,Medium Azur,Flickr,156,Medium Azure,322,Medium_Azure,MdAzure,,Many,2012,Present,,68c3e2
+Solid,323,Aqua,Aqua,Flickr,152,Light Aqua,323,Light_Aqua,LtAqua,,Several,2011,Present,,d3f2ea
+Solid,324,Medium Lavender,Medium Lavendel,Flickr,157,Medium Lavender,30,Medium_Lavender,MdLavender,,Many,2012,Present,,a06eb9
+Solid,325,Lavender,Lavender,Flickr,154,Lavender,31,Lavender,Lavender,,Few,2011,Present,,cda4de
+Solid,326,Spring Yellowish Green,Spr. Yell. Gree,Flickr,158,Yellowish Green,326,Yellowish_Green,,,Few,2012,Present,,e2f99a
+Solid,330,Olive Green,Olive Green,Flickr,155,Olive Green,330,Olive_Green,OliveGreen,,Many,2012,Present,,77774e
+Solid,,,,Flickr,27,Rust,,,Rust,,,,,Really 21 Bright Red in softer plastics,ff7b61
+Solid,,,,,,,,,,Fabuland Red,,1979,1985-1987,fab8c's arms/legs? fab8b's hat?,
+Solid,,,,,,,,,BtLtBlue,,,,,"Peeron says it's a Clikits color, but also lists other Bright Light Blue parts. Peeron says BL's BLB is Peeron's LtRoyalBlue. Confusing.",
+Solid,,,,,,,,,BtPink,,,,,Possibly a duplicate for 222 Light Purple and/or 295 Flamingo Pink.,
+Solid,,,,,56,Light Pink,,,LtPink,,,,,Technically not a real color.,
+Transparent,10,"(""Clear""? ""Transparent""?)",,,,,,,,,,,,,ffffbd
+Transparent,40,Transparent,Tr.,Flickr,12,Trans-Clear,47,Clear,Clear,,Many,1950,Present,,eeeeee
+Transparent,41,Transparent Red,Tr. Red,Flickr,17,Trans-Red,36,Trans_Red,TrRed,,Many,1969,Present,Modern bricks look a bit oranger.,B82700
+Transparent,42,Transparent Light Blue,Tr. L.Blue,Flickr,15,Trans-Light Blue,43,Trans_Light_Blue,TrLtBlue,,Many,1985,Present,,addded
+Transparent,43,Transparent Blue,Tr. Blue,Flickr,14,Trans-Dark Blue,33,Trans_Blue,TrBlue,,Many,1978,Present,,77b7cc
+Transparent,44,Transparent Yellow,Tr. Yel,Flickr,19,Trans-Yellow,46,Trans_Yellow,TrYellow,,Many,1969,Present,,faf15d
+Transparent,47,Transparent Fluorescent Reddish Orange,Tr. Fl.Redora,Flickr,18,Trans-Neon Orange,38,Trans_Neon_Orange,TrNeonOrange,,Many,1993,Present,,d06d4f
+Transparent,48,Transparent Green,Tr. Green,Flickr,20,Trans-Green,34,Trans_Green,TrGreen,,Many,1969,Present,,73b464
+Transparent,49,Transparent Fluorescent Green,Tr. Fl.Green,Flickr,16,Trans-Neon Green,42,Trans_Flu_Lime,TrNeonGreen,,Many,1990,Present,,faf15b
+Transparent,109,(PC) Black IR,,Flickr,,,32,Trans_Black_IR_Lens,,,Few,1998,Present,IR covering (e.g. RCX or old Mindstorms Transmitter?),001414
+Transparent,111,Transparent Brown,Tr. Brown,Flickr,13,Trans-Black,40,Trans_Gray,Smoke,,Many,1999,Present,,bbb29e
+Transparent,113,Transparent Medium Reddish Violet,Tr. Ml.R.Viol,Flickr,50,Trans-Dark Pink,37,Trans_Dark_Pink,TrPink,,Several,1998,Present,,fd8ecf
+Transparent,126,Transparent Bright Bluish Violet,Tr. Kl.Bl.Vio,Flickr,51,Trans-Purple,52,Trans_Purple,TrPurple,,Several,2000,Present,,9c95c7
+Transparent,143,Transparent Fluorescent Blue,Tr. Fl. Blue,Flickr,74,Trans-Medium Blue,41,Trans_Medium_Blue,TrMdBlue,,Many,2001,Present,,d0e5ff
+Transparent,156,Transparent Deep Blue,,Flickr,,,,,,,Few,2000,2002,"Star Pilot watch, eye of 8009",003fa8
+Transparent,157,Transparent Fluorescent Yellow,,Flickr,121,Trans-Neon Yellow,54,Trans_Neon_Yellow,TrPeach,,Few,2001,2005,"Bionicle brain stalk (Gali), Misprint KauKau",fff65c
+Transparent,158,Transparent Fluorescent Red,,Flickr,50,Trans-Dark Pink,,,TrSalmon,,Few,2001,2002,Bionicle brain stalk (Tahu),f18ebb
+Transparent,182,Transparent Bright Orange,Tr. Br. Orange,Flickr,98,Trans-Orange,57,Trans_Orange,TrDkOrange,,Several,2003,Present,This color is highly variable,e18d0a
+Transparent,227,Transparent Bright Yellowish Green,Tr. Br. Yel gr,Flickr,108,Trans-Bright Green,35,Trans_Bright_Green,TrLtGreen,,Few,2003,2006,"Pre-Atlantis ""Trans-Bright Green"": Belville (non-fluor.), Clikits (fluor.)",c9e788
+Transparent,228,Transparent Medium Bluish Green,,Flickr,,,,,,,Few,2003,2004,Clikits (frosted Clikits038),55a5af
+Transparent,229,Transparent Light Bluish Green,Tr. Lgh. Bl. Gr,Flickr,113,Trans-Very Lt Blue,39,Trans_Very_Light_Blue,TrIceBlue,,Few,2003,2006,Clikits,acd4de
+Transparent,230,Transparent Bright Purple,Tr. Br. Purple,Flickr,107,Trans-Pink,45,Trans_Pink,TrLtPink,Trans Light Pink,Few,2003,2006,Clikits,eca3c9
+Transparent,231,Transparent Flame Yellowish Orange,Tr. Fl. Yel Ora,Flickr,,,231,Trans_Bright_Light_Orange,TrPeach,,Few,2003,2006,Clikits http://brickset.com/parts/colour-Tr-Fl-Yel-Ora,fcb76d
+Transparent,234,Transparent Fire Yellow,Tr. Fire Yell.,Flickr,,,218,Trans_Fire_Yellow,TrLtYellow,,Few,2005,2006,Clikits http://brickset.com/parts/colour-Tr-Fire-Yell,fbe890
+Transparent,236,Transparent Bright Reddish Lilac,Tr. Br. Red. Li,Flickr,51,Trans-Purple,,,,,Few,2003,2006,Clikits http://brickset.com/parts/colour-Tr-Br-Red-Li,8d73b3
+Transparent,284,Transparent Reddish Lilac,Tr. Red-Lilac,Flickr,144,Trans-Light Purple,44,Trans_Light_Purple,TrLilac,,Few,2005,2005,Clikits http://brickset.com/parts/colour-Tr-Red-Lilac,e0d0e5
+Transparent,285,Transparent Light Green,Tr. L.Green,Flickr,108,Trans-Bright Green,285,Trans_Light_Green,,,Few,2005,2006,Clikits http://brickset.com/parts/colour-Tr-L-Green,e4d6da
+Transparent,293,Transparent Light Royal Blue,Tr. L.Royal Blue,Flickr,,,293,Trans_Light_Blue_Violet,,,Few,2005,2005,"Clikits, looks very similar to Tr. Fl. Blue. http://brickset.com/parts/colour-Tr-L-Royal-Blue",6babe4
+Transparent,311,Transparent Bright Green,Tr. Br. Green,Flickr,108,Trans-Bright Green,35,Trans_Bright_Green,TrBtGreen,,Some,2010,Present,Atlantis,afd246
+Transparent,,Transparent Light Pink,,,,,,,,,,,,http://cs.us.lego.com/en-US/replacementparts/showBrick.aspx?item=4198437&lod=5&size=2,
+Transparent,,Transparent Light Turquoise,,,,,,,,,,,,http://cs.us.lego.com/en-US/replacementparts/showBrick.aspx?item=4198440&lod=5&size=2,
+Transparent,,,,,,,,,NeonBlue,,,,,Not a real color.,
+Pearl,127,Gold,Gold,Flickr,61,Pearl Light Gold,142,Pearl_Light_Gold,PearlLtGold,,Few,2000,2005,Old C-3PO minifig color. Replaced in 2006 by 297 Warm Gold.,deac66
+Pearl,131,Silver,Silver,Flickr,66,"Pearl Light Gray, 95 Flat Silver",135,Pearl Light Grey,PearlLtGray,,Many,1998,2010,Replaced by 315 Silver Metallic in 2010.,a0a0a0
+Pearl,139,Copper,Copper,Flickr,84,Copper,134,Copper,PearlCopper,,Some,2004,2008,,764d3b
+Pearl,145,Sand Blue Metallic,Met.Sand.Blu,Flickr,78,Metal Blue,137,Metal_Blue,PearlBlue,,Some,2002,2005,Old Super Battle Droid color,5b7590
+Pearl,146,Sand Violet Metallic,,Flickr,,,,,,,Few,2000,2005,"Misprint lid to 8794, http://www.bricklink.com/catalogItem.asp?G=4373",817590
+Pearl,147,Sand Yellow Metallic,Met.Sand.Yel,Flickr,81,Flat Dark Gold,178,Flat_Dark_Gold,PearlDkGold,,Some,2003,2006,Replaced in 2006 by 297 Warm Gold.,83724f
+Pearl,148,Dark Grey Metallic,Met.Dk.Grey,Flickr,77,Pearl Dark Gray,148,Pearl_Dark_Gray,PearlDkGray,,Many,2002,2010,Replaced by 316 Titanium Metallic in 2010.,484d48
+Pearl,149,Black Metallic,Met.Black,Flickr,,,83,Metallic_Black,,,Few,2003,2006,Rahkshi Vorahk,0a1327
+Pearl,150,Light Grey Metallic,,Flickr,119,Pearl Very Light Gray,150,Pearl_Very_Light_Gray,PearlVLGray,,Few,2002,2003,,989b99
+Pearl,168,Gun Metallic,,,,,,,,,Few,2000,2000,"Grinder Fob watch, perhaps?",60564c
+Pearl,176,Red Flip/Flop,,Flickr,,,,,FFRed,,Few,2001,2001,Copper Mask of Victory. N. American version (left in photo) is more translucent than Euro version.,945148
+Pearl,178,Yellow Flip/Flop,,Flickr,,,,,FFYellow,,Few,2002,2002,Kanohi from krana packs,ab673a
+Pearl,179,Silver Flip/Flop,,Flickr,95,,,,PearlSilver,,Few,2002,2002,Kanohi from krana packs,737271
+Pearl,183,Metallic White,Met. White,Flickr,83,Pearl White,183,Pearl_White,"MetallicWhite, Pearlescent",,Few,2003,2006,Rahkshi Kurahk,f6f2df
+Pearl,184,Metallic Bright Red,Met. Br. Red,Flickr,,,184,Metallic Bright Red,,,Few,2003,2006,Rahkshi Turahk,d60026
+Pearl,185,Metallic Bright Blue,Met. Br. Blue,Flickr,,,,,,,Few,2003,2006,"Rahkshi Guurahk, Scrambler",0059a3
+Pearl,186,Metallic Dark Green,Met. Dk. Green,Flickr,,,186,Metallic_Dark_Green,PearlGreen,,Few,2003,2006,Rahkshi Lerahk,008e3c
+Pearl,187,Metallic Earth Orange,Met. Ear.Ora,Flickr,,,,,,,Few,2003,2006,Rahkshi Panrahk,57392c
+Pearl,189,Reddish Gold / Gold Metallic,Red. Gold,Flickr,,,189,Reddish_Gold,,,Some,2003,2005,Replaced in 2006 by 297 Warm Gold. Part 47460 (among others),ac8247
+Pearl,200,Lemon Metallic,,Flickr,70,Metallic Green,,,MetallicGreen,,Few,2001,2003,"""Metallic Green"" Kraata/Krana, ribbed hose",6a7944
+Pearl,296,Cool Silver,C.Silver,Flickr,61,Pearl Light Gray,135,Pearl Light Grey,,,Few,2006,2006,Briefly replaced 131 Silver,adadad
+Pearl,297,Warm Gold,W.Gold,Flickr,115,Pearl Gold,297,Pearl_Gold,PearlGold,,Many,2006,Present,"Replaced 189 Reddish Gold, 127 Gold, and 147 Sand Yellow Metallic in 2006. Reformulated in 2010, to be more consistent. As a result, the modern color is noticeably darker.",aa7f2e
+Pearl,315,Silver Metallic,Silver Met.,Flickr,95,Flat Silver,135,Pearl Light Grey,,,Many,2010,Present,Replaced 131 Silver in 2010.,8c8c8c
+Pearl,316,Titanium Metallic,Titan. Metal.,Flickr,77,Pearl Dark Gray,87,Metallic_Dark_Gray,,,Many,2010,Present,Replaced 148 Dark Grey Metallic in 2010.,3e3c39
+Pearl,,,,,,,,,PearlescentPink,,,,,"Possibly Clikits pearl-coated ring? Not a real color, in any case.",
+Chrome,309,Metalized Silver,Silver,Flickr,22,Chrome Silver,383,Chrome_Silver,ChromeSilver,,Many,1971,Present,Not including metal elements (such as axles from the 60s),cecece
+Chrome,310,Metalized Gold,Gold,Flickr,21,Chrome Gold,334,Chrome_Gold,ChromeGold,,Several,1989,Present,,dfc176
+Chrome,,Antique Gold,Anti. Gold,Flickr,57,Chrome Antique Brass,60,Chrome_Antique_Brass,ChromeBrass,,Few,2001,2005,,efc95c
+Chrome,,,,Flickr,122,Chrome Black,64,Chrome_Black,ChromeBlack,,Few,2009,2009,sw218,2f343c
+Chrome,,BLUEMETAL,,Flickr,52,Chrome Blue,61,Chrome_Blue,ChromeBlue,,Few,1998,2006,There are at least two distinct variants.,61aefb
+Chrome,,,,Flickr,64,Chrome Green,62,Chrome_Green,ChromeGreen,,Few,1999,1999,,00df00
+Chrome,,,,Flickr,82,Chrome Pink,63,Chrome_Pink,ChromePink,,Few,2001,2007,,ff50ff
+Chrome,,,,Flickr,,,,,,Chrome Red,Few,2011,2011,Only used for the VIP Keychain in 2011.,ff3629
+Chrome,,Antique Silver,,,,,,,,,,,,Part 4198361,
+Metallic,298,"Cool Silver, Drum Lacquered","C.Silver, Dr. L",Flickr,67,Metallic Silver,80,Metallic_Silver,MetallicSilver,,Many,2005,Present,"Not counting actual metal parts (4.5V plugs, train axles, etc.) Some parts in this color existed as far back as 1998, but it was not given its own official color ID until 2005.",767676
+Metallic,299,"Warm Gold, Drum Lacquered / Gold Metalized / Gold Laquered","W.Gold, Dr.La.",Flickr,65,Metallic Gold,82,Metallic Gold,MetallicGold,,Several,2005,Present,,deb060
+Metallic,300,"Copper, Drum Lacquered","Copper, Dr.La.",Flickr,,,300,Metallic_Copper,MetallicCopper,,Few,2008,2012,,c47949
+Metallic,301,Silver,,,,,,,,,,,,,
+Metallic,,,,Flickr,70,Metallic Green,81,Metallic_Green,MetallicGreen,,Few,2001,2001,Sets 8465 and 8466,e2dc91
+Metallic,,,,Flickr,,,,,,Metallic Pink,,2006,2006,Clikits star,ff1dde
+Milky,20,Nature,,Flickr,60,Milky White,79,Milky_White,TrLuWhite,,Some,1963,2008,"Typically (but not always) pure ABS, with no colorant.",e9e9e9
+Milky,50,Phosphorescent White,Phos.White,Flickr,46,Glow In Dark Opaque,21,Glow_In_Dark_Opaque,GlowInTheDark,,Several,1990,2006,Replaced by 294 Phosphorescent Green starting in 2005.,e5dfd3
+Milky,294,Phosphorescent Green,Ph.Green,Flickr,118,Glow In Dark Trans,294,Glow_In_Dark_Trans,TrGlowInTheDark,,Some,2005,2011,"Replaced 50 Phosphorescent White starting in 2005, replaced by 329 White Glow in 2012.",d5dc8a
+Milky,329,White Glow,White Glow,Flickr,159,Glow in Dark White,329,Glow_In_Dark_White,,,Some,2012,Present,Replaced 294 Phosphorescent Green in 2012.,f5f3d7
+Glitter,114,Transparent Pink Glitter / Transparent Medium Reddish Violet Glitter,Tr. M.R.V.Gli,Flickr,100,Glitter Trans-Dark Pink,114,Glitter_Trans_Dark_Pink,TrPinkGlitter,,Few,1999,2012/Pres.,,fe00fe
+Glitter,117,Transparent with Glitter,Tr. W.Glitter,Flickr,101,Glitter Trans-Clear,117,Glitter_Trans_Clear,"ClearGlitter, Pearlescent",,Few,1999,2007,,f7f7f7
+Glitter,122,Nature with Glitter,,Flickr,,,,,,,Few,1999,2005,"Allianz Arena color (possibly), Duplo spider web.",fecb98
+Glitter,129,Transparent Bluish Violet (Glitter),Tr. Br.Bl.V.G,Flickr,102,Glitter Trans-Purple,129,Glitter_Trans_Purple,TrPurpleGlitter,,Few,2000,Present,,435493
+Glitter,132,Black Glitter,,Flickr,,,132,Speckle_Black_Silver,,,Few,2000,2000,http://www.bricklink.com/catalogItem.asp?O=7159-1,000000
+Glitter,173,(transparent red glitter),,,,,,,,,,,,,
+Glitter,174,(transparent blue glitter),,,,,,,,,,,,,
+Glitter,175,Transparent Green with Glitter,Tr.Gr.W. Gli,,,,,,,,,,,Part 4143231,
+Glitter,302,Transparent Light Blue with Glitter,pctr Li.Blue W/,Flickr,162,Glitter Trans-Light Blue,302,Glitter_Trans_Light_Blue,,,,2015,Present,,00bad2
+Glitter,339,Transparent Fluorescent Green with Glitter,Tr. Fl.Gre W/Gli,Flickr,163,Glitter Trans-Neon Green,339,Glitter_Trans_Neon_Green,,,,2015,Present,,f0fc00
+Glitter,,,,Flickr,,,,,,,Few,2003,2003,"Avohkii color. With gold flecks, varies depending on viewing angle.",e6eaae
+Speckle,304,"Cool Silver, Diffuse",Co.Silver DiF,Flickr,"111, 117","Speckle Black-Silver, Speckle DBGray-Silver",79,Speckle_Dark_Bluish_Gray_Silver,"BlackGlitter, DkStoneGlitter",,Some,2006,2006,This color looks very different depending on what color it's coated over.,dfdad1
+Speckle,306,"Copper, Diffuse",Cop. Dif.,Flickr,116,Speckle Black-Copper,75,Speckle_Black_Copper,BlackCopperGlitter,,Few,2006,2006,,ae9a91
+Speckle,342,Conductive Black,Conduct. Black,Flickr,,,,,,,Few,2015,Present,,000000
+Speckle,,,,Flickr,151,Speckle Black-Gold,133,Speckle_Black_Gold,BlackGoldGlitter,,Few,2010,2011,Atlantis headgear/armor,d2b584
+Ink,329,White Glow / Glow In The Dark,White Glow,Flickr,159,Glow in Dark White,329,Glow_In_Dark_White,,,,,,,
+Ink,331,Lacquer,,,,,,,,,,,,Slightly bluish-white,
+Ink,332,Fluorescent Red Ink,Fluorescent Red Ink,,,,,,,,,,,,
+Ink,333,Fluorescent Green Ink,Fluorescent Green Ink,,,,,,,,,,,,
+Ink,334,Copper Ink,Copper Ink,Flickr,,,,,,,,,,,c86a33
+Ink,335,Gold Ink,Gold Ink,Flickr,,,82,Metallic_Gold,,,,,,,e4b863
+Ink,336,Silver Ink,Silver Ink,Flickr,,,283,Metalized Silver,,,,,,,f7f7f7
+Ink,337,Titanium Ink,Titanium Ink,,,,,,,,,,,,
+Process,429,Yellow,,,,,,,,,,,,,
+Process,439,Magenta,,,,,,,,,,,,,
+Process,454,Cyan,,,,,,,,,,,,,
+Modulex,0,Clear,,Flickr,149,Mx Clear,,,,,Some,1963,?,LEGO-logo and M-Logo,ffffff
+Modulex,1,White,,Flickr,123,Mx White,,,,,Many,1963,?,LEGO-logo and M-Logo,f4f4f4
+Modulex,2,Light Gray,,Flickr,125,Mx Light Gray,,,,,Many,1963,?,LEGO-logo and M-Logo,cacfd0
+Modulex,3,Black,,Flickr,128,Mx Black,,,,,Several,1963,?,LEGO-logo and M-Logo,4d4c52
+Modulex,4,Terracotta,,Flickr,134,Mx Terracotta,,,,,Several,1963,?,LEGO-logo and M-Logo,e17e4f
+Modulex,5,Buff,,Flickr,133,Mx Buff,,,,Tan,Many,1963,?,LEGO-logo and M-Logo,fddfb4
+Modulex,6,Ocher Yellow,,Flickr,138,Mx Ochre Yellow,,,,,Few,1963,?,"LEGO-logo, some M-Logo",ffda32
+Modulex,7,Olive Green,,Flickr,140,Mx Olive Green,,,,,Several,1963,?,"LEGO-logo, some M-Logo",91b264
+Modulex,8,Teal Blue,,Flickr,146,Mx Teal Blue,,,,,Some,1963,?,"LEGO-logo, some M-Logo",389ebc
+Modulex,9,Brown,,Flickr,132,Mx Brown,,,,,Some,1963,?,LEGO-logo and M-Logo,a97953
+Modulex,11,Pastel Blue,,Flickr,145,Mx Pastel Blue,,,,,Many,1963,?,LEGO-logo and M-Logo,5dc6eb
+Modulex,12,Orange,,Flickr,135,Mx Orange,,,,,Several,1963,?,LEGO-logo and M-Logo,ff8300
+Modulex,13,Red,,Flickr,129,Mx Red,,,,,Many,1963,?,LEGO-logo and M-Logo,ff442b
+Modulex,14,Pastel Green,,Flickr,141,Mx Pastel Green,,,,,Many,1963,?,LEGO-logo and M-Logo,90e600
+Modulex,15,Lemon,,Flickr,139,Mx Lemon,,,,,Several,1963,?,LEGO-logo and M-Logo,fff400
+Modulex,16,Pink,,Flickr,148,Mx Pink,,,,,Some,1963,?,LEGO-logo and M-Logo,fcabcb
+Modulex,32,Light Bluish Gray,,Flickr,124,Mx Light Bluish Gray,,,,,Few,,,"Newer color, M-Logo only (with extremely rare exceptions)",d2d5e4
+Modulex,33,Pink Red,,Flickr,130,Mx Pink Red,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",ff9bba
+Modulex,34,Aqua Green,,Flickr,142,Mx Aqua Green,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",56f3e4
+Modulex,35,Light Yellow,,Flickr,137,Mx Light Yellow,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",fff787
+Modulex,37,Violet,,Flickr,147,Mx Violet,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",cdadf8
+Modulex,38,Medium Blue,,Flickr,144,Mx Medium Blue,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",29a5fa
+Modulex,39,Light Orange,,Flickr,136,Mx Light Orange,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",ffd500
+Modulex,40,Charcoal Gray,,Flickr,126,Mx Charcoal Gray,,,,,Some,,,"Newer color, M-Logo only (with extremely rare exceptions)",696c7a
+Modulex,80,White,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,f4f4f4
+Modulex,81,Black,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,46515a
+Modulex,82,Dark Gray,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,959d99
+Modulex,83,Light Gray,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,e9eee6
+Modulex,84,Dark Green,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,42764a
+Modulex,85,Light Green,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,a8d375
+Modulex,86,Dark Blue,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,0085b2
+Modulex,87,Light Blue,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,8bcad9
+Modulex,88,Violet,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,8a6e99
+Modulex,89,Red,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,cc3c3b
+Modulex,90,Yellow,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,fffd9d
+Modulex,91,Orange,,Flickr,,,,,,,Few,,,Used for foil sheets and dividing tape.,ffc303
+Modulex,,,,Flickr,127,Mx Tile Gray,,,,,Some,,,"Newest Mx colors, only tiles and related parts",a5a4aa
+Modulex,,,,Flickr,131,Mx Tile Brown,,,,,Some,,,"Newest Mx colors, only tiles and related parts",5b3c3e
+Modulex,,,,Flickr,143,Mx Tile Blue,,,,,Some,,,"Newest Mx colors, only tiles and related parts",0048c9
+Solid,353,Metallic Sand Blue,Met. Sand Bl.,BrickColorStream,137,Metallic Sand Blue,334,Metallic_Sand_Blue,Metallic Sand Blue,,Rare,2016,Present,,657d94
+Solid,368,Metallic Gold,Mtl.Gld,Flickr,65,Metallic Gold,82,Metallic_Gold,Metallic Gold,,Rare,1997,Present,,#A57723
+Solid,375,Flame Reddish Orange,FlameReddishOrange,Flickr,375,Flame Reddish Orange,101,Flame_Reddish_Orange,Flame_Reddish_Orange,,Several,2000,Present,,ec441d
+material,legoId,legoName,legoAbbreviation,brickColorstream,bricklinkId,bricklinkName,lDrawId,lDrawName,peeronName,otherName,rarity,firstSeen,lastSeen,notes,hex
+Solid,362,Transparent Blue Opal,Trans-Blue Opal,Flickr,362,Trans-Blue Opal,88,Transparent Blue Opal,Transparent Blue Opal,,Many,2000,Present,,a4c7db
+Solid,360,Transparent Red,Trans-Red,Flickr,360,Trans-Red,14,Transparent Red,Transparent Red,,Common,1950,Present,,f4c2c2
+Solid,365,Transparent Blue,Trans-Blue,Flickr,365,Trans-Blue,13,Transparent Blue,Transparent Blue,,Common,1950,Present,,4a9ed9
+Solid,364,Transparent Green,Trans-Green,Flickr,364,Trans-Green,12,Transparent Green,Transparent Green,,Common,1950,Present,,67c577
+Solid,366,Transparent Orange,Trans-Orange,Flickr,366,Trans-Orange,10,Transparent Orange,Transparent Orange,,Common,1950,Present,,ff9e1b
+Solid,31,Red,Red,Flickr,31,Red,4,Red,Red,,Common,1950,Present,,d32f2f
+Solid,169,Light Bluish Gray,Light Bluish Gray,Flickr,169,Light Bluish Gray,87,Light Bluish Gray,Light Bluish Gray,,Common,2000,Present,,a9a9a9
+Solid,170,Light Bluish Gray,Light Bluish Gray,Flickr,170,Light Bluish Gray,87,Light Bluish Gray,Light Bluish Gray,,Common,2000,Present,,a9a9a9
+Solid,402,Dark Brown,Dark Brown,Flickr,402,Dark Brown,120,Dark Brown,Dark Brown,,Common,2000,Present,,5c3c30
+Solid,367,Transparent Yellow,Trans-Yellow,Flickr,367,Trans-Yellow,11,Transparent Yellow,Transparent Yellow,,Common,1950,Present,,f7df2e
+Solid,370,Transparent Purple,Trans-Purple,Flickr,370,Trans-Purple,29,Transparent Purple,Transparent Purple,,Rare,2000,Present,,9b56b7
+Solid,423,Transparent Pink,Trans-Pink,Flickr,423,Trans-Pink,28,Transparent Pink,Transparent Pink,,Rare,2000,Present,,f58ea8
+Solid,177,Dark Red,Dark Red,Flickr,177,Dark Red,59,Dark Red,Dark Red,,Common,2000,Present,,9b2d2f
+Solid,238,Dark Green,Dark Green,Flickr,238,Dark Green,6,Dark Green,Dark Green,,Common,2000,Present,,4e6a47
+Solid,239,Dark Green,Dark Green,Flickr,239,Dark Green,6,Dark Green,Dark Green,,Common,2000,Present,,4e6a47
+Solid,171,Medium Bluish Gray,Med. Bluish Gray,Flickr,171,Medium Bluish Gray,85,Medium Bluish Gray,Medium Bluish Gray,,Common,2000,Present,,808080
+Solid,241,Earth Blue,Earth Blue,Flickr,241,Earth Blue,92,Earth Blue,Earth Blue,,Rare,2000,Present,,4b77b1
+Solid,242,Earth Blue,Earth Blue,Flickr,242,Earth Blue,92,Earth Blue,Earth Blue,,Rare,2000,Present,,4b77b1

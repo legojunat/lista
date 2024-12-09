@@ -84,6 +84,7 @@ console.log(`
 <html>
   <head>
     <style type="text/css">
+      body { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
       img { width: ${IMAGE_SIZE}; height: ${IMAGE_SIZE}; object-fit: contain; border: 4px solid white; background-color: white; }
       table { border-spacing: 0; border-collapse: collapse; width: 100%; page-break-inside: auto; }
       tr { padding: 0; }

@@ -6,7 +6,7 @@ const BRICKLINK_ITEM_URL = 'https://bricklink.com/v2/catalog/catalogitem.page';
 const BRICKLINK_IMAGE_URL = 'https://img.bricklink.com/ItemImage';
 const AUTO_SORT = false;
 const ONLY_LEGO_PARTS = true;
-const IMAGE_SIZE = '50px';
+const IMAGE_SIZE = '32px';
 
 const processFile = async (file) => {
   const records = [];
@@ -84,13 +84,14 @@ console.log(`
 <html>
   <head>
     <style type="text/css">
-      body { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+      body { font-family: Arial, Helvetica, sans-serif; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
       img { width: ${IMAGE_SIZE}; height: ${IMAGE_SIZE}; object-fit: contain; border: 4px solid white; background-color: white; }
       table { border-spacing: 0; border-collapse: collapse; width: 100%; page-break-inside: auto; }
       tr { padding: 0; }
       tr:nth-child(odd) { background-color: #eeeeee; }
       tr:nth-child(even) { background-color: #cccccc; }
-      td { padding: 2px; vertical-align: middle; }
+      th { font-size: 10px; font-weight: bold; color: white; background-color: black; text-align: left; }
+      td { font-size: 12px; padding: 2px; vertical-align: middle; }
       .color { display: inline-block; width: 16px; height: 16px; border: 1px solid black; }
     </style>
     <script>
@@ -114,9 +115,9 @@ console.log(`
       <thead>
         <tr>
           <th>Image</th>
-          <th>Colour</th>
+          <th>BL colour</th>
+          <th>BL part</th>
 ${header.map((column) => `          <th>${column}</th>`).join('\n')}
-          <th>BrickLink part</th>
         </tr>
       </thead>
       <tbody>
@@ -132,9 +133,9 @@ ${rows.map((row) => {
   if (color && !skipBl.has(row[4])) {
     return `        <tr>
           <td><a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" /></td>
-          <td><span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.legoName || '&nbsp;'}</td>
+          <td><span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}</td>
+          <td>${brickLinkPartId}</td>
 ${row.map((column) => `          <td>${column}</td>`).join('\n')}
-          <td>${blMap[row[4]] || ''}</td>
         </tr>
 `;
   } else if (!skipBl.has(row[4])) {
@@ -142,16 +143,16 @@ ${row.map((column) => `          <td>${column}</td>`).join('\n')}
           <td><a target="_new" href="${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}><img src="${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png" alt="" /></td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
-${row.map((column) => `          <td>${column}</td>`).join('\n')}
           <td>&nbsp;</td>
+${row.map((column) => `          <td>${column}</td>`).join('\n')}
         </tr>
 `;
   } else {
     return `        <tr>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
-${row.map((column) => `          <td>${column}</td>`).join('\n')}
           <td>&nbsp;</td>
+${row.map((column) => `          <td>${column}</td>`).join('\n')}
         </tr>
 `;
   }

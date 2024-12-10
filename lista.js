@@ -86,16 +86,70 @@ console.log(`
 <html>
   <head>
     <style type="text/css">
-      body { font-family: Arial, Helvetica, sans-serif; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-      img { width: ${IMAGE_SIZE}; height: ${IMAGE_SIZE}; object-fit: contain; border: 4px solid white; background-color: white; }
-      table, tr, td, th { page-break-inside: avoid; }
-      table { border-spacing: 0; border-collapse: collapse; width: 100%; }
-      tr { padding: 0; page-break-before: auto; }
-      tr:nth-child(odd) { background-color: #eeeeee; }
-      tr:nth-child(even) { background-color: #cccccc; }
-      th { font-size: ${HEADER_FONT_SIZE}; font-weight: bold; color: white; background-color: black; text-align: left; }
-      td { font-size: ${NORMAL_FONT_SIZE}; padding: 2px; vertical-align: middle; }
-      .color { display: inline-block; width: 16px; height: 16px; border: 1px solid black; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      img {
+        width: ${IMAGE_SIZE};
+        height: auto;
+        border: 4px solid white;
+        background-color: white;
+        padding: 0;
+        margin: 0;
+      }
+
+      table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      tr {
+        padding: 0;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #eeeeee;
+      }
+
+      tr:nth-child(even) {
+        background-color: #cccccc;
+      }
+
+      th {
+        font-size: ${HEADER_FONT_SIZE};
+        font-weight: bold;
+        color: white;
+        background-color: black;
+        text-align: left;
+      }
+
+      td {
+        font-size: ${NORMAL_FONT_SIZE};
+        padding: 2px;
+        vertical-align: middle;
+      }
+
+      .color {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 1px solid black;
+        vertical-align: middle;
+      }
+
+      @print {
+        body {
+          font-size: 8px;
+        }
+
+        tr {
+          page-break-inside: avoid;
+        }
+      }
     </style>
     <script>
       function imageFallback(imgElement, fallbackImage) {

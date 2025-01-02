@@ -5,7 +5,7 @@ const { parse } = require('csv-parse');
 const BRICKLINK_ITEM_URL = 'https://bricklink.com/v2/catalog/catalogitem.page';
 const BRICKLINK_IMAGE_URL = 'https://img.bricklink.com/ItemImage';
 const AUTO_SORT = false;
-const ONLY_LEGO_PARTS = true;
+const FILTER_DUPLO_PARTS_OUT = true;
 const IMAGE_SIZE = '40px';
 const HEADER_FONT_SIZE = '8px';
 const NORMAL_FONT_SIZE = '10px';
@@ -62,8 +62,8 @@ const processFile = async (file) => {
   let rows = allRows
 
   // Only show Lego parts
-  if (ONLY_LEGO_PARTS) {
-    rows = rows.filter((row) => row[0] === 'LEGO')
+  if (FILTER_DUPLO_PARTS_OUT) {
+    rows = rows.filter((row) => row[0] !== 'DUPLO')
   }
 
   // Sorting options
@@ -182,12 +182,12 @@ ${rows.map((row) => {
   const legoColorId = row[3];
   const brickLinkPartId = blMap[row[4]] || row[4];
   const color = colors.find((c) => c.legoId === legoColorId);
-  const url = `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${color.bricklinkId}`;
-  const mainImage = `${BRICKLINK_IMAGE_URL}/PN/${color.bricklinkId}/${brickLinkPartId}.png`;
-  const fallbackImage = `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png`;
 
   // onload="hideParents(this)" 
   if (color && !skipBl.has(row[4])) {
+    const url = `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${color.bricklinkId}`;
+    const mainImage = `${BRICKLINK_IMAGE_URL}/PN/${color.bricklinkId}/${brickLinkPartId}.png`;
+    const fallbackImage = `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png`;
     return `        <tr>
           <td><a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" /></td>
           <td><span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}</td>

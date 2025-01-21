@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 
 const { processFile } = require('./process-file');
@@ -46,7 +47,7 @@ function removeColumns(_column, index) {
   })
 
   const priceFile = path.resolve(__dirname, 'price.csv');
-  if (!fs.fileExistsSync(priceFile)) {
+  if (!fs.existsSync(priceFile)) {
     console.error('price.csv not found, please generate it with "npm run price"');
     process.exit();
   }

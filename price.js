@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
+const fs = require('fs');
 const OAuth = require('oauth-1.0a');
 const crypto = require('crypto');
 const path = require('path');
@@ -27,7 +28,7 @@ const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), tim
 
 (async function() {
   const bricklinkFile = path.resolve(__dirname, 'bricklink.csv');
-  if (!fs.fileExistsSync(bricklinkFile)) {
+  if (!fs.existsSync(bricklinkFile)) {
     console.error('bricklink.csv not found, please generate it with "npm run bricklink"');
     process.exit();
   }
@@ -50,7 +51,7 @@ const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), tim
   ].join(','));
   for (const [material, brickLinkPartId, brickLinkColorId] of rows) {
     const url = (brickLinkPartId && brickLinkColorId)
-      ? `${BASE_URL}/items/part/${brickLinkId}/price?color_id=${brickLinkColorId}&guide_type=sold&region=eu`
+      ? `${BASE_URL}/items/part/${brickLinkPartId}/price?color_id=${brickLinkColorId}&guide_type=sold&region=eu`
       : `${BASE_URL}/items/part/${material}/price?guide_type=sold&region=eu`;
     const method = 'GET';
 
@@ -66,30 +67,33 @@ const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), tim
       })
     );
 
+    let info = {}
     try {
       const response = await axios.get(url, {
         headers: {
           Authorization: authHeader.Authorization,
         },
       });
-      const info = response.data.data;
-      console.log([
-        material,
-        brickLinkPartId,
-        brickLinkColorId,
-        info.min_price,
-        info.max_price,
-        info.avg_price,
-        info.qty_avg_price,
-        info.unit_quantity,
-        info.total_quantity,
-      ].join(','));
+      info = response.data.data;
     } catch (error) {
       if (!axios.isAxiosError(error) || error.response.status !== 404) {
         console.log('Exitting due error', error)
         process.exit();
       }
+
     }
+
+    console.log([
+      material,
+      brickLinkPartId ?? '',
+      brickLinkColorId ?? '',
+      info.min_price ?? '',
+      info.max_price ?? '',
+      info.avg_price ?? '',
+      info.qty_avg_price ?? '',
+      info.unit_quantity ?? '',
+      info.total_quantity ?? '',
+    ].join(','));
 
     await delay(1000);
   }

@@ -1,28 +1,40 @@
-const fs = require('fs');
 const path = require('path');
-const { parse } = require('csv-parse');
+
+const { processFile } = require('./process-file');
 
 const BRICKLINK_ITEM_URL = 'https://bricklink.com/v2/catalog/catalogitem.page';
+const BRICKLINK_SEARCH_URL = 'https://www.bricklink.com/catalogList.asp'
 const BRICKLINK_IMAGE_URL = 'https://img.bricklink.com/ItemImage';
-const AUTO_SORT = false;
-const FILTER_DUPLO_PARTS_OUT = true;
 const IMAGE_SIZE = '40px';
 const HEADER_FONT_SIZE = '8px';
 const NORMAL_FONT_SIZE = '10px';
 
-const processFile = async (file) => {
-  const records = [];
-  const parser = fs
-    .createReadStream(file)
-    .pipe(parse({
-      // CSV options if any
-    }));
-  for await (const record of parser) {
-    // Work with each record
-    records.push(record);
+function euroCents(input) {
+  const value = Number(input);
+  const roundedValue = Math.round(value * 100) / 100;
+  return `${roundedValue.toString().replace('.', ',')}&nbsp;&euro;`;
+}
+
+function formattedQuantity(input) {
+  const value = Number(input);
+  if (value >= 1000000) {
+    return `>1000k`;
   }
-  return records;
-};
+
+  if (value >= 1000) {
+    return `${Math.round(value / 1000)}k`;
+  }
+
+  if (value <= 100) {
+    return '<100';
+  }
+
+  return input;
+}
+
+function removeColumns(_column, index) {
+  return index !== 1 && index !== 2;
+}
 
 (async function() {
   const [colorsHeader, ...colorsRows] = (await processFile(path.resolve(__dirname, 'colors.csv')))
@@ -33,54 +45,66 @@ const processFile = async (file) => {
     }), {});
   })
 
-  const [_blMapHeader, ...blMapRows] = (await processFile(path.resolve(__dirname, 'lego_to_bricklink_map.csv')))
-  const blMap = blMapRows.reduce((prev, curr) => ({
+  const priceFile = path.resolve(__dirname, 'price.csv');
+  if (!fs.fileExistsSync(priceFile)) {
+    console.error('price.csv not found, please generate it with "npm run price"');
+    process.exit();
+  }
+  const [priceHeader, ...priceRows] = (await processFile(priceFile))
+  const priceMap = priceRows.reduce((prev, [
+    material,
+    brickLinkPartId,
+    brickLinkColorId,
+    minPrice,
+    maxPrice,
+    avgPrice,
+    qtyAvgPrice,
+    unitQuantity,
+    totalQuantity
+  ]) => ({
     ...prev,
-    [curr[0]]: curr[1]
+    [material]: [
+      brickLinkPartId,
+      brickLinkColorId,
+      euroCents(minPrice),
+      euroCents(maxPrice),
+      euroCents(avgPrice),
+      euroCents(qtyAvgPrice),
+      formattedQuantity(unitQuantity),
+      formattedQuantity(totalQuantity)
+    ]
   }), {});
+  const defaultPrice = [...new Array(priceHeader.length - 2)].map(() => '&nbsp;');
 
-  const [_skipBlHeader, ...skipBlRows] = (await processFile(path.resolve(__dirname, 'skip_part.csv')))
-  const skipBl = new Set(skipBlRows.flat());
-
-  // Image,Main Group Top,Main Group Sub,,Colour ID,,Communication number
-  // row[0] =
-  // row[1] = DUPLO
-  // row[2] = 1 ROW W/ STUD, WITH
-  // row[3] = DUPLO BRICK 1X2X2
-  // row[4] = BR.YEL
-  // row[5] = 24
-  // row[6] = 76371
+  // row[0] => on list 2024 = 1
+  // row[1] => Main Group Top = TECHNIC
+  // row[2] => Main Group Sub = CONNECTING BUSH W/ A
+  // row[3] => Material = 6013938
+  // row[4] => Description = 1 1/2 M CONNECTING BUSH
+  // row[5] => Colour ID = BRICK-YEL
+  // row[6] => Communication number = 32002
+  // row[7] => Gross Weight (G) = 0.109
+  // row[8] => Length (MM) = 12.100
+  // row[9] => Width (MM) = 5.600
+  // row[10] => Height (MM) = 5.900
+  // row[11] => 2025 Prices (in EUR) = 1.23
   const [header, ...allRows] = (await processFile(path.resolve(__dirname, 'lista.csv')))
-    // row[0] = DUPLO
-    // row[1] = DUPLO BRICK 1X2X2
-    // row[2] = BR.YEL
-    // row[3] = 24
-    // row[4] = 76371
-    .map(([_image, brand, _group, name, colorName, colorId, partId]) => ([brand, name, colorName, colorId, partId]))
 
-  // Take all rows by default
-  let rows = allRows
-
-  // Only show Lego parts
-  if (FILTER_DUPLO_PARTS_OUT) {
-    rows = rows.filter((row) => row[0] !== 'DUPLO')
-  }
-
-  // Sorting options
-  if (AUTO_SORT) {
-    // Sort first by partId
-    rows = rows.sort((x, y) => {
-      if (x[4] < y[4]) return -1;
-      if (x[4] > y[4]) return 1;
-      return 0;
-    })
-    // Sort then by name
-    .sort((x, y) => {
-      if (x[1] < y[1]) return -1;
-      if (x[1] > y[1]) return 1;
-      return 0;
-    })
-  }
+  const categories = Array.from(new Set(allRows.map((row) => row[1])))
+    .map((category) => {
+      const subRows = allRows.filter((row) => row[1] === category);
+      const subCategories = Array.from(new Set(subRows.map((row) => row[2])));
+      return {
+        category,
+        items: subCategories.sort().map((subCategory) => {
+          const rows = subRows.filter((row) => row[2] === subCategory);
+          return {
+            subCategory,
+            rows,
+          };
+        })
+      }
+    });
 
 console.log(`
 <html>
@@ -99,6 +123,10 @@ console.log(`
         background-color: white;
         padding: 0;
         margin: 0;
+      }
+
+      h1 {
+        font-size: 24px;
       }
 
       table {
@@ -127,10 +155,18 @@ console.log(`
         text-align: left;
       }
 
+      th.right-divider {
+        border-right: 1px solid white;
+      }
+
       td {
         font-size: ${NORMAL_FONT_SIZE};
         padding: 2px;
         vertical-align: middle;
+      }
+
+      td.right-divider {
+        border-right: 1px solid #aaaaaa;
       }
 
       .color {
@@ -141,9 +177,13 @@ console.log(`
         vertical-align: middle;
       }
 
+      .center {
+        text-align: center;
+      }
+
       @print {
         body {
-          font-size: 8px;
+          font-size: 6px;
         }
 
         tr {
@@ -168,53 +208,64 @@ console.log(`
     </script>
   </head>
   <body>
+
+${categories.map(({ category, items }) => `
+${items.map(({ subCategory, rows }) => `
+    <h1>${category}: ${subCategory}</h1>
     <table>
       <thead>
         <tr>
+          <th colspan="3" class="center right-divider">BrickLink</th>
+          <th colspan="4" class="center right-divider">BrickLink Prices</th>
+          <th colspan="2" class="center right-divider">BrickLink Qty</th>
+          <th class="center right-divider">LB price</th>
+${header.filter(removeColumns).map((column) => `          <th rowspan="2">${column}</th>`).join('\n')}
+        </tr>
+        <tr>
           <th>Image</th>
-          <th>BL colour</th>
-          <th>BL part</th>
-${header.map((column) => `          <th>${column}</th>`).join('\n')}
+          <th>Color name</th>
+          <th>Part</th>
+          <th class="right-divider">Color</th>
+          <th class="center">Min</th>
+          <th class="center">Avg</th>
+          <th class="center">Max</th>
+          <th class="center right-divider">Qty Avg</th>
+          <th class="center">Unit</th>
+          <th class="center right-divider">Total</th>
+          <th class="center right-divider">+ VAT + Post</th>
         </tr>
       </thead>
       <tbody>
 ${rows.map((row) => {
-  const legoColorId = row[3];
-  const brickLinkPartId = blMap[row[4]] || row[4];
-  const color = colors.find((c) => c.legoId === legoColorId);
+  const material = row[3];
+  const legoColorId = row[5];
+  const price = priceMap[material] || defaultPrice;
+  const [brickLinkPartId, brickLinkColorId] = price;
 
-  // onload="hideParents(this)" 
-  if (color && !skipBl.has(row[4])) {
-    const url = `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${color.bricklinkId}`;
-    const mainImage = `${BRICKLINK_IMAGE_URL}/PN/${color.bricklinkId}/${brickLinkPartId}.png`;
-    const fallbackImage = `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png`;
+  const color = (brickLinkColorId && colors.find((c) => c.bricklinkId === brickLinkColorId))
+    ?? colors.find((c) => c.legoAbbreviation.toUpperCase() === legoColorId);
+
+  const url = (brickLinkPartId && brickLinkColorId)
+    ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${color.bricklinkId}`
+    : `${BRICKLINK_SEARCH_URL}?q=${row[3]}`;
+
+  const lugbulkPriceIncludingVatAndPostage = euroCents(Number(row[11]) * 1.255 * 1.07);
+  const mainImage = (brickLinkPartId && brickLinkColorId) ? `${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png` : '';
+  const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : '';
+
     return `        <tr>
-          <td><a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" /></td>
-          <td><span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}</td>
-          <td>${brickLinkPartId}</td>
-${row.map((column) => `          <td>${column}</td>`).join('\n')}
+          <td>${mainImage ? `<a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
+          <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
+${price.map((meta, index) => `          <td class="${index === 3 || index === 5 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
+          <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>
+${row.filter(removeColumns).map((column) => `          <td>${column}</td>`).join('\n')}
         </tr>
 `;
-  } else if (!skipBl.has(row[4])) {
-    return `        <tr>
-          <td><a target="_new" href="${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}><img src="${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png" alt="" /></td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-${row.map((column) => `          <td>${column}</td>`).join('\n')}
-        </tr>
-`;
-  } else {
-    return `        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-${row.map((column) => `          <td>${column}</td>`).join('\n')}
-        </tr>
-`;
-  }
 }).join('')}      </tbody>
     </table>
+`)}
+`)}
+
   </body>
 </html>
 `);

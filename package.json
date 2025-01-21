@@ -4,12 +4,17 @@
   "description": "Tool to arrange Lego parts into HTML with BrickLink images.",
   "main": "lista.js",
   "scripts": {
-    "start": "node lista.js > lista.html",
+    "bricklink": "node bricklink.js > bricklink.csv",
+    "html": "node lista.js > lista.html",
+    "price": "node price.js > price.csv",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jussi Kinnula <jussi.kinnula@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "csv-parse": "^5.5.3"
+    "axios": "^1.7.9",
+    "csv-parse": "^5.5.3",
+    "dotenv": "^16.4.7",
+    "oauth-1.0a": "^2.2.6"
   }
 }

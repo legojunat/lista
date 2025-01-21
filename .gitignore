@@ -1,5 +1,8 @@
+.env
 .DS_Store
+bricklink.csv
 node_modules
 lista.csv
 lista.html
-
+lista.csv
+price.csv

@@ -130,8 +130,10 @@ console.log(`<!doctype html>
       }
 
       img {
-        width: ${IMAGE_SIZE};
-        height: auto;
+        max-width: 100%;
+        max-height: ${IMAGE_SIZE};
+        object-fit: contain;
+        display: block;
         border: 4px solid white;
         background-color: white;
         padding: 0;
@@ -146,6 +148,11 @@ console.log(`<!doctype html>
 
       h1 {
         font-size: 24px;
+        margin: 10px;
+      }
+
+      p {
+        margin: 10px;
       }
 
       table {
@@ -153,6 +160,7 @@ console.log(`<!doctype html>
         border-collapse: collapse;
         width: 100%;
         min-width: 600px;
+        display: none;
       }
 
       tr {
@@ -224,6 +232,26 @@ console.log(`<!doctype html>
       }
     </style>
     <script>
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      const tableObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const table = entry.target;
+            table.querySelector('table').style.display = 'table';
+            observer.unobserve(table);
+          }
+        });
+      });
+
       function imageFallback(imgElement, fallbackImage) {
         if (imgElement.src === fallbackImage) {
           imgElement.onerror = null;
@@ -237,13 +265,60 @@ console.log(`<!doctype html>
         const parent = imgElement.parentNode.parentNode.parentNode;
         parent.style.display = 'none';
       }
+
+      function loadAll() {
+        const button = document.getElementById('loadAll');
+        button.disabled = true;
+
+        const images = document.querySelectorAll('img');
+        images.forEach((img) => {
+          if (!img.src) {
+            img.src = img.dataset.src;
+            imageObserver.unobserve(img);
+          }
+        });
+
+        const tables = document.querySelectorAll('div.table-container');
+        tables.forEach((table) => {
+          table.querySelector('table').style.display = 'table';
+          tableObserver.unobserve(table);
+        });
+      }
+
+      function startObservingImages() {
+        const images = document.querySelectorAll('img');
+
+        images.forEach((image) => {
+          imageObserver.observe(image);
+        });
+      }
+
+      function startObservingTables() {
+        const [firstTable, ...tables] = document.querySelectorAll('div.table-container');
+        window.setTimeout(() => {
+          firstTable.querySelector('table').style.display = 'table';
+
+          window.setTimeout(() => {
+            tables.forEach((table) => {
+              tableObserver.observe(table);
+            });
+          }, 500);
+        }, 500);
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        startObservingImages();
+        startObservingTables();
+      });
     </script>
   </head>
   <body>
 
+    <p><button id="loadAll" onclick="loadAll()">Lataa kaikki kuvat ja taulukot</button> --> varoitus tämä on hidas toiminto, normaalisti kuvat ja taulukot ladataan sitä mukaa kun ne tulevat ruudulle...</p>
 ${categories.map(({ category, items }) => `
 ${items.map(({ subCategory, rows }) => `
     <h1>${category}: ${subCategory}</h1>
+
     <div class="table-container">
       <table>
         <thead>
@@ -287,7 +362,7 @@ ${rows.map((row) => {
   const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : '';
 
     return `          <tr>
-            <td>${mainImage ? `<a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
+            <td>${mainImage ? `<a target="_new" href="${url}"><img data-src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
             <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
 ${price.map((meta, index) => `            <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
             <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>

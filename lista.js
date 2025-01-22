@@ -148,10 +148,6 @@ console.log(`<!doctype html>
         font-size: 24px;
       }
 
-      .table-container {
-        overflow-x: auto;
-      }
-
       table {
         border-spacing: 0;
         border-collapse: collapse;
@@ -207,9 +203,19 @@ console.log(`<!doctype html>
         text-align: center;
       }
 
+      @media (max-width: 768px) {
+        .table-container {
+          overflow-x: auto;
+        }
+      }
+
       @print {
         body {
           font-size: 6px;
+        }
+
+        .table-container {
+          overflow-x: initial;
         }
 
         tr {

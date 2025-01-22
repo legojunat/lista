@@ -247,7 +247,7 @@ ${rows.map((row) => {
     ?? colors.find((c) => c.legoAbbreviation.toUpperCase() === legoColorId);
 
   const url = (brickLinkPartId && brickLinkColorId)
-    ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${color.bricklinkId}`
+    ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${brickLinkColorId}`
     : `${BRICKLINK_SEARCH_URL}?q=${row[3]}`;
 
   const lugbulkPriceIncludingVatAndPostage = euroCents(Number(row[11]) * 1.255 * 1.07);

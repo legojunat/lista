@@ -57,8 +57,8 @@ function removeColumns(_column, index) {
     brickLinkPartId,
     brickLinkColorId,
     minPrice,
-    maxPrice,
     avgPrice,
+    maxPrice,
     qtyAvgPrice,
     unitQuantity,
     totalQuantity
@@ -216,7 +216,7 @@ ${items.map(({ subCategory, rows }) => `
     <table>
       <thead>
         <tr>
-          <th colspan="3" class="center right-divider">BrickLink</th>
+          <th colspan="4" class="center right-divider">BrickLink</th>
           <th colspan="4" class="center right-divider">BrickLink Prices</th>
           <th colspan="2" class="center right-divider">BrickLink Qty</th>
           <th class="center right-divider">LB price</th>
@@ -257,7 +257,7 @@ ${rows.map((row) => {
     return `        <tr>
           <td>${mainImage ? `<a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
           <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
-${price.map((meta, index) => `          <td class="${index === 3 || index === 5 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
+${price.map((meta, index) => `          <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
           <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>
 ${row.filter(removeColumns).map((column) => `          <td>${column}</td>`).join('\n')}
         </tr>

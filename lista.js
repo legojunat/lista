@@ -11,12 +11,20 @@ const HEADER_FONT_SIZE = '8px';
 const NORMAL_FONT_SIZE = '10px';
 
 function euroCents(input) {
+  if (!input) {
+    return '';
+  }
+
   const value = Number(input);
   const roundedValue = Math.round(value * 100) / 100;
   return `${roundedValue.toString().replace('.', ',')}&nbsp;&euro;`;
 }
 
 function formattedQuantity(input) {
+  if (!input) {
+    return '';
+  }
+
   const value = Number(input);
   if (value >= 1000000) {
     return `>1000k`;
@@ -107,14 +115,18 @@ function removeColumns(_column, index) {
       }
     });
 
-console.log(`
+console.log(`<!doctype html>
 <html>
   <head>
+    <title>Lista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style type="text/css">
       body {
         font-family: Arial, Helvetica, sans-serif;
         -webkit-print-color-adjust:exact !important;
         print-color-adjust: exact !important;
+        margin: 0;
+        padding: 0;
       }
 
       img {
@@ -124,16 +136,27 @@ console.log(`
         background-color: white;
         padding: 0;
         margin: 0;
+        transition: transform 0.3s ease;
+        transform-origin: top left;
+      }
+
+      img:hover {
+        transform: scale(4);
       }
 
       h1 {
         font-size: 24px;
       }
 
+      .table-container {
+        overflow-x: auto;
+      }
+
       table {
         border-spacing: 0;
         border-collapse: collapse;
         width: 100%;
+        min-width: 600px;
       }
 
       tr {
@@ -154,6 +177,7 @@ console.log(`
         color: white;
         background-color: black;
         text-align: left;
+        white-space: nowrap;
       }
 
       th.right-divider {
@@ -164,6 +188,7 @@ console.log(`
         font-size: ${NORMAL_FONT_SIZE};
         padding: 2px;
         vertical-align: middle;
+        white-space: nowrap;
       }
 
       td.right-divider {
@@ -213,30 +238,31 @@ console.log(`
 ${categories.map(({ category, items }) => `
 ${items.map(({ subCategory, rows }) => `
     <h1>${category}: ${subCategory}</h1>
-    <table>
-      <thead>
-        <tr>
-          <th colspan="4" class="center right-divider">BrickLink</th>
-          <th colspan="4" class="center right-divider">BrickLink Prices</th>
-          <th colspan="2" class="center right-divider">BrickLink Qty</th>
-          <th class="center right-divider">LB price</th>
-${header.filter(removeColumns).map((column) => `          <th rowspan="2">${column}</th>`).join('\n')}
-        </tr>
-        <tr>
-          <th>Image</th>
-          <th>Color name</th>
-          <th>Part</th>
-          <th class="right-divider">Color</th>
-          <th class="center">Min</th>
-          <th class="center">Avg</th>
-          <th class="center">Max</th>
-          <th class="center right-divider">Qty Avg</th>
-          <th class="center">Unit</th>
-          <th class="center right-divider">Total</th>
-          <th class="center right-divider">+ VAT + Post</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="4" class="center right-divider">BrickLink</th>
+            <th colspan="4" class="center right-divider">BrickLink Prices</th>
+            <th colspan="2" class="center right-divider">BrickLink Qty</th>
+            <th class="center right-divider">LB price</th>
+${header.filter(removeColumns).map((column) => `            <th rowspan="2">${column}</th>`).join('\n')}
+          </tr>
+          <tr>
+            <th>Image</th>
+            <th>Color name</th>
+            <th>Part</th>
+            <th class="right-divider">Color</th>
+            <th class="center">Min</th>
+            <th class="center">Avg</th>
+            <th class="center">Max</th>
+            <th class="center right-divider">Qty Avg</th>
+            <th class="center">Unit</th>
+            <th class="center right-divider">Total</th>
+            <th class="center right-divider">+ VAT + Post</th>
+          </tr>
+        </thead>
+        <tbody>
 ${rows.map((row) => {
   const material = row[3];
   const legoColorId = row[5];
@@ -254,16 +280,17 @@ ${rows.map((row) => {
   const mainImage = (brickLinkPartId && brickLinkColorId) ? `${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png` : '';
   const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : '';
 
-    return `        <tr>
-          <td>${mainImage ? `<a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
-          <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
-${price.map((meta, index) => `          <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
-          <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>
-${row.filter(removeColumns).map((column) => `          <td>${column}</td>`).join('\n')}
-        </tr>
+    return `          <tr>
+            <td>${mainImage ? `<a target="_new" href="${url}"><img src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
+            <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
+${price.map((meta, index) => `            <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
+            <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>
+${row.filter(removeColumns).map((column) => `            <td>${column}</td>`).join('\n')}
+          </tr>
 `;
-}).join('')}      </tbody>
-    </table>
+}).join('')}        </tbody>
+      </table>
+    </div>
 `)}
 `)}
 

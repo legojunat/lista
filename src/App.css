@@ -1,0 +1,12 @@
+.App {
+  color: black;
+  background-color: silver;
+  padding: 1rem;
+  width: 100%;
+  max-width: 640px;
+}
+
+.App h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}

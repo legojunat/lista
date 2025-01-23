@@ -4,13 +4,7 @@ Tool to arrange Lego parts into HTML with BrickLink images.
 
 ## Usage
 
-Commands need to be ran sequentally:
-
-* `npm run bricklink` = generate *bricklink.csv* -file from *material* (e.g. Lego Material ID) from *lista.csv* using BrickLink API
-* `npm run price` = generate *price.csv* -file from *brickLinkPartId* and *brickLinkColorId* information on *bricklink.csv* using BrickLink API
-* `npm run html` = generate *lista.html* from *lista.csv*  and previously generated *price.csv*
-
-Note! Running time of first two steps can take up to 5 hours with ~12000 parts.
+TBD
 
 ## BrickLink API
 
@@ -25,9 +19,9 @@ OAUTH_ACCESS_TOKEN=
 OAUTH_ACCESS_TOKEN_SECRET=
 ```
 
-## Example CSV
+## Example input CSV
 
-You can convert the mapping by editing [bricklink.js](./bricklink.js) and [lista.js](./lista.js) -files.
+Place original data into `data/lugbulk-original-data.csv`, and if the format is different than below - edit it in [bricklink-item.ts](./scripts/brick)
 
 Current mapping is:
 

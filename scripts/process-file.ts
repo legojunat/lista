@@ -1,8 +1,8 @@
-const fs = require('fs');
-const { parse } = require('csv-parse');
+import fs from 'fs';
+import { parse } from 'csv-parse';
 
-const processFile = async (file) => {
-  const records = [];
+export const processFile = async (file: string) => {
+  const records: string[][] = [];
   const parser = fs
     .createReadStream(file)
     .pipe(parse({
@@ -10,9 +10,7 @@ const processFile = async (file) => {
     }));
   for await (const record of parser) {
     // Work with each record
-    records.push(record);
+    records.push(record as string[]);
   }
   return records;
 };
-
-module.exports = { processFile };

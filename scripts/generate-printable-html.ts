@@ -1,7 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const { processFile } = require('./process-file');
+import { processFile } from './process-file';
+import { getColors } from './colors';
 
 const BRICKLINK_ITEM_URL = 'https://bricklink.com/v2/catalog/catalogitem.page';
 const BRICKLINK_SEARCH_URL = 'https://www.bricklink.com/catalogList.asp'
@@ -10,7 +11,7 @@ const IMAGE_SIZE = '40px';
 const HEADER_FONT_SIZE = '8px';
 const NORMAL_FONT_SIZE = '10px';
 
-function euroCents(input) {
+function euroCents(input?: string) {
   if (!input) {
     return '';
   }
@@ -20,7 +21,7 @@ function euroCents(input) {
   return `${roundedValue.toString().replace('.', ',')}&nbsp;&euro;`;
 }
 
-function formattedQuantity(input) {
+function formattedQuantity(input?: string) {
   if (!input) {
     return '';
   }
@@ -41,26 +42,27 @@ function formattedQuantity(input) {
   return input;
 }
 
-function removeColumns(_column, index) {
+function removeColumns(_column: string, index: number) {
   return index !== 1 && index !== 2;
 }
 
 (async function() {
-  const [colorsHeader, ...colorsRows] = (await processFile(path.resolve(__dirname, 'colors.csv')))
-  const colors = colorsRows.map((colorsRow) => {
-    return colorsHeader.reduce((prev, curr, index) => ({
-      ...prev,
-      [curr]: colorsRow[index],
-    }), {});
-  })
-
-  const priceFile = path.resolve(__dirname, 'price.csv');
+  const priceFile = path.resolve(__dirname, '../data/bricklink-price.csv');
   if (!fs.existsSync(priceFile)) {
-    console.error('price.csv not found, please generate it with "npm run price"');
+    console.error('Error: data/bricklink-price.csv not found, please generate it with "npm run bricklink-price"');
     process.exit();
   }
-  const [priceHeader, ...priceRows] = (await processFile(priceFile))
-  const priceMap = priceRows.reduce((prev, [
+
+  const lugbulkOriginalData = path.resolve(__dirname, '../data/lugbulk-original-data.csv');
+  if (!fs.existsSync(lugbulkOriginalData)) {
+    console.error('Error: data/lugbulk-original-data.csv not found');
+    process.exit();
+  }
+
+  const colors = await getColors();
+
+  const [priceHeader, ...priceRows] = (await processFile(priceFile));
+  const priceMap: Record<string, string[]> = priceRows.reduce((prev, [
     material,
     brickLinkPartId,
     brickLinkColorId,
@@ -97,7 +99,7 @@ function removeColumns(_column, index) {
   // row[9] => Width (MM) = 5.600
   // row[10] => Height (MM) = 5.900
   // row[11] => 2025 Prices (in EUR) = 1.23
-  const [header, ...allRows] = (await processFile(path.resolve(__dirname, 'lista.csv')))
+  const [header, ...allRows] = (await processFile(lugbulkOriginalData));
 
   const categories = Array.from(new Set(allRows.map((row) => row[1])))
     .map((category) => {
@@ -119,6 +121,7 @@ console.log(`<!doctype html>
 <html>
   <head>
     <title>Lista</title>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style type="text/css">
       body {
@@ -357,7 +360,7 @@ ${rows.map((row) => {
     ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${brickLinkColorId}`
     : `${BRICKLINK_SEARCH_URL}?q=${row[3]}`;
 
-  const lugbulkPriceIncludingVatAndPostage = euroCents(Number(row[11]) * 1.255 * 1.07);
+  const lugbulkPriceIncludingVatAndPostage = euroCents(`${Number(row[11]) * 1.255 * 1.07}`);
   const mainImage = (brickLinkPartId && brickLinkColorId) ? `${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png` : '';
   const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : '';
 

@@ -1,26 +1,26 @@
-import 'dotenv/config'
-import axios from 'axios';
-import fs from 'fs';
-import path from 'path';
+import "dotenv/config";
+import axios from "axios";
+import fs from "fs";
+import path from "path";
 
-import { getAuthHeader } from './oauth';
-import { processFile } from './process-file';
-import { delay } from './delay';
-import { BRICKLINK_BASE_URL } from './constants';
+import { getAuthHeader } from "./oauth";
+import { processFile } from "./process-file";
+import { delay } from "./delay";
+import { BRICKLINK_BASE_URL } from "./constants";
 
 interface BrickLinkLego {
   data: Array<{
     item?: {
       no: string;
-    }
+    };
     color_id?: string;
-  }>
+  }>;
 }
 
-(async function() {
-  const lugbulkOriginalData = path.resolve(__dirname, '../data/lugbulk-original-data.csv');
+(async function () {
+  const lugbulkOriginalData = path.resolve(__dirname, "../data/lugbulk-original-data.csv");
   if (!fs.existsSync(lugbulkOriginalData)) {
-    console.error('Error: data/lugbulk-original-data.csv not found');
+    console.error("Error: data/lugbulk-original-data.csv not found");
     process.exit();
   }
 
@@ -37,33 +37,33 @@ interface BrickLinkLego {
   // row[10] => Height (MM) = 5.900
   // row[11] => 2025 Prices (in EUR) = 1.23
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_header, ...rows] = (await processFile(lugbulkOriginalData));
+  const [_header, ...rows] = await processFile(lugbulkOriginalData);
   console.info(`Info: Starting to match ${rows.length} Lego parts with BrickLink`);
 
   const output: string[] = [];
-  output.push(['material', 'brickLinkPartId', 'brickLinkColorId'].join(','));
+  output.push(["material", "brickLinkPartId", "brickLinkColorId"].join(","));
   for (const row of rows) {
     const material = row[3];
     const url = `${BRICKLINK_BASE_URL}/item_mapping/${material}`;
-    const method = 'GET';
+    const method = "GET";
 
     const authHeader = getAuthHeader({
       url,
-      method,
+      method
     });
 
     try {
       const response = await axios.get<BrickLinkLego>(url, {
         headers: {
-          Authorization: authHeader.Authorization,
-        },
+          Authorization: authHeader.Authorization
+        }
       });
-      const brickLinkPartId = response.data?.data[0]?.item?.no ?? '';
-      const brickLinkColorId = response.data?.data[0]?.color_id ?? '';
-      output.push([material, brickLinkPartId, brickLinkColorId].join(','));
+      const brickLinkPartId = response.data?.data[0]?.item?.no ?? "";
+      const brickLinkColorId = response.data?.data[0]?.color_id ?? "";
+      output.push([material, brickLinkPartId, brickLinkColorId].join(","));
     } catch (error) {
       if (!axios.isAxiosError(error) || error.response?.status !== 404) {
-        console.log('Exitting due error', error)
+        console.log("Exitting due error", error);
         process.exit();
       }
     }
@@ -71,6 +71,6 @@ interface BrickLinkLego {
     await delay(1000);
   }
 
-  console.info('Info: Writing to data/bricklink-lego.csv');
-  fs.writeFileSync(path.resolve(__dirname, '../data/bricklink-lego.csv'), output.join('\n'), 'utf8');
+  console.info("Info: Writing to data/bricklink-lego.csv");
+  fs.writeFileSync(path.resolve(__dirname, "../data/bricklink-lego.csv"), output.join("\n"), "utf8");
 })();

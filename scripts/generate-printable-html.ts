@@ -1,29 +1,29 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-import { processFile } from './process-file';
-import { getColors } from './colors';
+import { processFile } from "./process-file";
+import { getColors } from "./colors";
 
-const BRICKLINK_ITEM_URL = 'https://bricklink.com/v2/catalog/catalogitem.page';
-const BRICKLINK_SEARCH_URL = 'https://www.bricklink.com/catalogList.asp'
-const BRICKLINK_IMAGE_URL = 'https://img.bricklink.com/ItemImage';
-const IMAGE_SIZE = '40px';
-const HEADER_FONT_SIZE = '8px';
-const NORMAL_FONT_SIZE = '10px';
+const BRICKLINK_ITEM_URL = "https://bricklink.com/v2/catalog/catalogitem.page";
+const BRICKLINK_SEARCH_URL = "https://www.bricklink.com/catalogList.asp";
+const BRICKLINK_IMAGE_URL = "https://img.bricklink.com/ItemImage";
+const IMAGE_SIZE = "40px";
+const HEADER_FONT_SIZE = "8px";
+const NORMAL_FONT_SIZE = "10px";
 
 function euroCents(input?: string) {
   if (!input) {
-    return '';
+    return "";
   }
 
   const value = Number(input);
   const roundedValue = Math.round(value * 100) / 100;
-  return `${roundedValue.toString().replace('.', ',')}&nbsp;&euro;`;
+  return `${roundedValue.toString().replace(".", ",")}&nbsp;&euro;`;
 }
 
 function formattedQuantity(input?: string) {
   if (!input) {
-    return '';
+    return "";
   }
 
   const value = Number(input);
@@ -36,7 +36,7 @@ function formattedQuantity(input?: string) {
   }
 
   if (value <= 100) {
-    return '<100';
+    return "<100";
   }
 
   return input;
@@ -46,46 +46,52 @@ function removeColumns(_column: string, index: number) {
   return index !== 1 && index !== 2;
 }
 
-(async function() {
-  const priceFile = path.resolve(__dirname, '../data/bricklink-price.csv');
+(async function () {
+  const priceFile = path.resolve(__dirname, "../data/bricklink-price.csv");
   if (!fs.existsSync(priceFile)) {
     console.error('Error: data/bricklink-price.csv not found, please generate it with "npm run bricklink-price"');
     process.exit();
   }
 
-  const lugbulkOriginalData = path.resolve(__dirname, '../data/lugbulk-original-data.csv');
+  const lugbulkOriginalData = path.resolve(__dirname, "../data/lugbulk-original-data.csv");
   if (!fs.existsSync(lugbulkOriginalData)) {
-    console.error('Error: data/lugbulk-original-data.csv not found');
+    console.error("Error: data/lugbulk-original-data.csv not found");
     process.exit();
   }
 
   const colors = await getColors();
 
-  const [priceHeader, ...priceRows] = (await processFile(priceFile));
-  const priceMap: Record<string, string[]> = priceRows.reduce((prev, [
-    material,
-    brickLinkPartId,
-    brickLinkColorId,
-    minPrice,
-    avgPrice,
-    maxPrice,
-    qtyAvgPrice,
-    unitQuantity,
-    totalQuantity
-  ]) => ({
-    ...prev,
-    [material]: [
-      brickLinkPartId,
-      brickLinkColorId,
-      euroCents(minPrice),
-      euroCents(maxPrice),
-      euroCents(avgPrice),
-      euroCents(qtyAvgPrice),
-      formattedQuantity(unitQuantity),
-      formattedQuantity(totalQuantity)
-    ]
-  }), {});
-  const defaultPrice = [...new Array(priceHeader.length - 2)].map(() => '&nbsp;');
+  const [priceHeader, ...priceRows] = await processFile(priceFile);
+  const priceMap: Record<string, string[]> = priceRows.reduce(
+    (
+      prev,
+      [
+        material,
+        brickLinkPartId,
+        brickLinkColorId,
+        minPrice,
+        avgPrice,
+        maxPrice,
+        qtyAvgPrice,
+        unitQuantity,
+        totalQuantity
+      ]
+    ) => ({
+      ...prev,
+      [material]: [
+        brickLinkPartId,
+        brickLinkColorId,
+        euroCents(minPrice),
+        euroCents(maxPrice),
+        euroCents(avgPrice),
+        euroCents(qtyAvgPrice),
+        formattedQuantity(unitQuantity),
+        formattedQuantity(totalQuantity)
+      ]
+    }),
+    {}
+  );
+  const defaultPrice = [...new Array(priceHeader.length - 2)].map(() => "&nbsp;");
 
   // row[0] => on list 2024 = 1
   // row[1] => Main Group Top = TECHNIC
@@ -99,25 +105,24 @@ function removeColumns(_column: string, index: number) {
   // row[9] => Width (MM) = 5.600
   // row[10] => Height (MM) = 5.900
   // row[11] => 2025 Prices (in EUR) = 1.23
-  const [header, ...allRows] = (await processFile(lugbulkOriginalData));
+  const [header, ...allRows] = await processFile(lugbulkOriginalData);
 
-  const categories = Array.from(new Set(allRows.map((row) => row[1])))
-    .map((category) => {
-      const subRows = allRows.filter((row) => row[1] === category);
-      const subCategories = Array.from(new Set(subRows.map((row) => row[2])));
-      return {
-        category,
-        items: subCategories.sort().map((subCategory) => {
-          const rows = subRows.filter((row) => row[2] === subCategory);
-          return {
-            subCategory,
-            rows,
-          };
-        })
-      }
-    });
+  const categories = Array.from(new Set(allRows.map((row) => row[1]))).map((category) => {
+    const subRows = allRows.filter((row) => row[1] === category);
+    const subCategories = Array.from(new Set(subRows.map((row) => row[2])));
+    return {
+      category,
+      items: subCategories.sort().map((subCategory) => {
+        const rows = subRows.filter((row) => row[2] === subCategory);
+        return {
+          subCategory,
+          rows
+        };
+      })
+    };
+  });
 
-console.log(`<!doctype html>
+  console.log(`<!doctype html>
 <html>
   <head>
     <title>Lista</title>
@@ -318,8 +323,10 @@ console.log(`<!doctype html>
   <body>
 
     <p><button id="loadAll" onclick="loadAll()">Lataa kaikki kuvat ja taulukot</button> --> varoitus tämä on hidas toiminto, normaalisti kuvat ja taulukot ladataan sitä mukaa kun ne tulevat ruudulle...</p>
-${categories.map(({ category, items }) => `
-${items.map(({ subCategory, rows }) => `
+${categories.map(
+  ({ category, items }) => `
+${items.map(
+  ({ subCategory, rows }) => `
     <h1>${category}: ${subCategory}</h1>
 
     <div class="table-container">
@@ -330,7 +337,10 @@ ${items.map(({ subCategory, rows }) => `
             <th colspan="4" class="center right-divider">BrickLink Prices</th>
             <th colspan="2" class="center right-divider">BrickLink Qty</th>
             <th class="center right-divider">LB price</th>
-${header.filter(removeColumns).map((column) => `            <th rowspan="2">${column}</th>`).join('\n')}
+${header
+  .filter(removeColumns)
+  .map((column) => `            <th rowspan="2">${column}</th>`)
+  .join("\n")}
           </tr>
           <tr>
             <th>Image</th>
@@ -347,39 +357,48 @@ ${header.filter(removeColumns).map((column) => `            <th rowspan="2">${co
           </tr>
         </thead>
         <tbody>
-${rows.map((row) => {
-  const material = row[3];
-  const legoColorId = row[5];
-  const price = priceMap[material] || defaultPrice;
-  const [brickLinkPartId, brickLinkColorId] = price;
+${rows
+  .map((row) => {
+    const material = row[3];
+    const legoColorId = row[5];
+    const price = priceMap[material] || defaultPrice;
+    const [brickLinkPartId, brickLinkColorId] = price;
 
-  const color = (brickLinkColorId && colors.find((c) => c.bricklinkId === brickLinkColorId))
-    ?? colors.find((c) => c.legoAbbreviation.toUpperCase() === legoColorId);
+    const color =
+      (brickLinkColorId && colors.find((c) => c.bricklinkId === brickLinkColorId)) ??
+      colors.find((c) => c.legoAbbreviation.toUpperCase() === legoColorId);
 
-  const url = (brickLinkPartId && brickLinkColorId)
-    ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${brickLinkColorId}`
-    : `${BRICKLINK_SEARCH_URL}?q=${row[3]}`;
+    const url =
+      brickLinkPartId && brickLinkColorId
+        ? `${BRICKLINK_ITEM_URL}?P=${brickLinkPartId}#T=C&C=${brickLinkColorId}`
+        : `${BRICKLINK_SEARCH_URL}?q=${row[3]}`;
 
-  const lugbulkPriceIncludingVatAndPostage = euroCents(`${Number(row[11]) * 1.255 * 1.07}`);
-  const mainImage = (brickLinkPartId && brickLinkColorId) ? `${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png` : '';
-  const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : '';
+    const lugbulkPriceIncludingVatAndPostage = euroCents(`${Number(row[11]) * 1.255 * 1.07}`);
+    const mainImage =
+      brickLinkPartId && brickLinkColorId ? `${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png` : "";
+    const fallbackImage = brickLinkPartId ? `${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png` : "";
 
     return `          <tr>
-            <td>${mainImage ? `<a target="_new" href="${url}"><img data-src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : '&nbsp;'}</td>
-            <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || '&nbsp;'}` : '&nbsp;'}</td>
-${price.map((meta, index) => `            <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : 'center'}">${meta}</td>`).join('\n')}
+            <td>${mainImage ? `<a target="_new" href="${url}"><img data-src="${mainImage}" onerror="imageFallback(this, '${fallbackImage}')" alt="" />` : "&nbsp;"}</td>
+            <td>${color ? `<span style="background-color: #${color.hex}" class="color">&nbsp;</span> ${color.bricklinkName || "&nbsp;"}` : "&nbsp;"}</td>
+${price.map((meta, index) => `            <td class="${index === 1 || index === 5 || index === 7 ? `center right-divider` : "center"}">${meta}</td>`).join("\n")}
             <td class="center right-divider">${lugbulkPriceIncludingVatAndPostage}</td>
-${row.filter(removeColumns).map((column) => `            <td>${column}</td>`).join('\n')}
+${row
+  .filter(removeColumns)
+  .map((column) => `            <td>${column}</td>`)
+  .join("\n")}
           </tr>
 `;
-}).join('')}        </tbody>
+  })
+  .join("")}        </tbody>
       </table>
     </div>
-`)}
-`)}
+`
+)}
+`
+)}
 
   </body>
 </html>
 `);
 })();
-

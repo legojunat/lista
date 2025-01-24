@@ -1,0 +1,46 @@
+.Parts {
+}
+
+.Parts-table {
+}
+
+.Parts-table table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 600px;
+}
+
+.Parts-table thead th {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.Parts-table thead th {
+  padding: 0.25rem;
+}
+
+.Parts-table thead th {
+  font-weight: bold;
+  color: white;
+  background-color: black;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.Parts-table thead th.right-divider {
+  border-right: 1px solid white;
+}
+
+.Parts-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .Parts-table {
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,12 @@
+.ColorLabel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ColorLabel-hex {
+  width: 24px;
+  height: 24px;
+  border: 1px solid black;
+}

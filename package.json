@@ -54,7 +54,7 @@
     "husky": "^9.1.6",
     "jsdom": "25.0.0",
     "lint-staged": "15.2.10",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all": "4.1.5",
     "oauth-1.0a": "2.2.6",
     "prettier": "3.3.3",
     "rimraf": "6.0.1",

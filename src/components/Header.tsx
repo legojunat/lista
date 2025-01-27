@@ -1,8 +1,10 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import useApi from "../hooks/useApi";
 
 import Categories from "./Categories";
+
+const SEARCH_CHANGE_THRESHOLD = 1000; // milliseconds
 
 import "./Header.css";
 
@@ -14,15 +16,37 @@ interface Props {
 }
 
 function Header(props: Props) {
-  const { showTable, setShowTable, search, setSearch } = props;
+  const { showTable, setShowTable, setSearch } = props;
   const [categoriesVisible, setCategoriesVisible] = useState(false);
+  const [internalSearchValue, setInternalSearchValue] = useState("");
   const { selectedCategoryIds } = useApi();
 
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setSearch(internalSearchValue);
+    }, SEARCH_CHANGE_THRESHOLD);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [internalSearchValue]);
+
+  const fastSubmit = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        setSearch(internalSearchValue);
+      }
+    },
+    [internalSearchValue]
+  );
+
   const toggleCategoriesVisible = useCallback(() => setCategoriesVisible((prev) => !prev), []);
+
   const toggleCategoriesButtonLabel = useMemo(
     () => (categoriesVisible ? "Piilota kategoriat" : "Näytä kategoriat"),
     [categoriesVisible]
   );
+
   const selectedCategoriesLabel = useMemo(() => {
     if (selectedCategoryIds.size > 1) {
       return `${selectedCategoryIds.size} valittua kategoriaa`;
@@ -36,6 +60,7 @@ function Header(props: Props) {
   }, [selectedCategoryIds.size]);
 
   const toggleShowTable = useCallback(() => setShowTable((prev) => !prev), []);
+
   const toggleShowTableButtonLabel = useMemo(() => (showTable ? "Näytä kuvina" : "Näytä taulukkona"), [showTable]);
 
   return (
@@ -45,7 +70,13 @@ function Header(props: Props) {
         <button onClick={toggleCategoriesVisible}>{toggleCategoriesButtonLabel}</button>
         <span>{selectedCategoriesLabel}</span>
         <span>
-          Haku: <input type="text" value={search} onChange={(event) => setSearch(event.target.value)} />
+          Haku:{" "}
+          <input
+            type="text"
+            value={internalSearchValue}
+            onChange={(event) => setInternalSearchValue(event.target.value)}
+            onKeyDown={fastSubmit}
+          />
         </span>
       </div>
       {categoriesVisible && <Categories />}

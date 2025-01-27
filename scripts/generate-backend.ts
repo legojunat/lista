@@ -270,16 +270,16 @@ interface Data {
 
   // Renderable categories based on BrickLink categories found in Lugbulk data
   console.info("Info: Generating public/bricklink-categories.json");
-  const materialsWithBrickLinkMetadata = rows.map(({ material }) => {
-    const lego = legos.get(material);
+  const rowsWithBrickLinkMetadata = rows.map((row) => {
+    const lego = legos.get(row.material);
     const item = lego ? items.get(lego.brickLinkPartId) : undefined;
     const categoryId = item?.categoryId;
-    return { material, categoryId };
+    return { ...row, categoryId };
   });
   const brickLinkCategories = categoryRows.map(([categoryId, categoryName]) => ({
     categoryId,
     categoryName,
-    materials: materialsWithBrickLinkMetadata.filter((m) => m.categoryId === categoryId).map((m) => m.material)
+    materials: rowsWithBrickLinkMetadata.filter((row) => row.categoryId === categoryId).map((row) => row.material)
   }));
   fs.writeFileSync(
     path.resolve(__dirname, "../public/bricklink-categories.json"),
@@ -287,10 +287,33 @@ interface Data {
     "utf8"
   );
 
+  // Renderable categories based on BrickLink categories found in Lugbulk data
+  console.info(`Info: Generating public/category-materials/*.json (${categoryRows.length} pcs)`);
+  for (const [categoryId, categoryName] of categoryRows) {
+    const categoryMaterials = {
+      categoryId,
+      categoryName,
+      materials: rowsWithBrickLinkMetadata
+        .filter((row) => row.categoryId === categoryId)
+        .map((row) => {
+          const lego = legos.get(row.material);
+          const price = prices.get(row.material);
+          const item = lego ? items.get(lego.brickLinkPartId) : undefined;
+          return { lugbulkData: row, price, item };
+        })
+    };
+    fs.writeFileSync(
+      path.resolve(__dirname, `../public/category-materials/${categoryId}.json`),
+      JSON.stringify(categoryMaterials, null, 2),
+      "utf8"
+    );
+  }
+
   // Colors
   console.info("Info: Generating public/colors.json");
   fs.writeFileSync(path.resolve(__dirname, "../public/colors.json"), JSON.stringify(colors, null, 2), "utf8");
 
+  // Note! Not used at the moment
   // Individual materials with metadata
   console.info(`Info: Generating public/materials/*.json (${rows.length} pcs)`);
   for (const row of rows) {

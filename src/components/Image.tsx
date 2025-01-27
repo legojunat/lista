@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
-import useApi from "../hooks/useApi";
 import { Material } from "../types/material";
 
 import ColorLabel from "./ColorLabel";
@@ -9,62 +8,39 @@ import BrickLinkImage from "./BrickLinkImage";
 import "./Image.css";
 import { getLugbulkPrice } from "../utils/lugbulk-price";
 import { euroCents } from "../utils/euro-cents";
-import { useVisible } from "../hooks/useVisible";
+import { formattedQuantity } from "../utils/formatted-quantity";
 
 interface Props {
-  materialId: string;
-  search: string;
+  material: Material;
 }
 
-function Image({ materialId, search }: Props) {
-  const [material, setMaterial] = useState<Material | undefined>(undefined);
-  const [notFound, setNotFound] = useState(false);
-  const { fetchMaterial } = useApi();
-  const visible = useVisible(material, search);
-
-  useEffect(() => {
-    fetchMaterial(materialId).then((nextMaterial) => {
-      setMaterial(nextMaterial);
-      if (!material) {
-        setNotFound(true);
-      }
-    });
-  }, [materialId]);
-
+function Image({ material }: Props) {
   const bottomLabel = useMemo(() => {
     if (material) {
-      const encodedString = [
-        material.item.brickLinkPartId,
-        `BL ${euroCents(material.price.qtyAvgPrice)}`,
-        `(LB ${euroCents(getLugbulkPrice(material.lugbulkData.price))})`,
-        material.item.name
-      ].join(" ");
       const textArea = document.createElement("textarea");
-      textArea.innerHTML = encodedString;
-      return textArea.value;
+      textArea.innerHTML = material.item.name;
+      return [
+        `${material.item.brickLinkPartId} ${textArea.value}`,
+        `BL hinta (qty max): ${euroCents(material.price.qtyAvgPrice)}`,
+        `BL saatavuus (unit/total): ${formattedQuantity(material.price.unitQuantity)} / ${formattedQuantity(material.price.totalQuantity)}`,
+        `Lugbulk hinta: ${euroCents(getLugbulkPrice(material.lugbulkData.price))} (${euroCents(material.lugbulkData.price)})`
+      ];
     }
 
-    return "";
+    return [];
   }, [material]);
-
-  if (!visible) {
-    return null;
-  }
 
   return (
     <div className="Image">
-      {!notFound && !material && <div className="Image-loading" />}
-      {material && (
-        <>
-          <BrickLinkImage material={material} />
-          <div className="Image-topLabel">
-            <ColorLabel brickLinkColorId={material.price.brickLinkColorId} />
-          </div>
-          <div className="Image-bottomLabel" title={bottomLabel}>
-            {bottomLabel}
-          </div>
-        </>
-      )}
+      <BrickLinkImage material={material} />
+      <div className="Image-topLabel">
+        <ColorLabel brickLinkColorId={material.price.brickLinkColorId} />
+      </div>
+      <div className="Image-bottomLabel">
+        {bottomLabel.map((value, index) => (
+          <div key={index}>{value}</div>
+        ))}
+      </div>
     </div>
   );
 }

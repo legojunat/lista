@@ -1,7 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
-import useApi from "../hooks/useApi";
-import { useVisible } from "../hooks/useVisible";
 import { Material } from "../types/material";
 import { euroCents } from "../utils/euro-cents";
 import { formattedQuantity } from "../utils/formatted-quantity";
@@ -13,30 +11,15 @@ import BrickLinkImage from "./BrickLinkImage";
 import "./Row.css";
 
 interface Props {
-  materialId: string;
-  search: string;
+  material: Material;
 }
 
-function Row({ materialId, search }: Props) {
-  const [material, setMaterial] = useState<Material | undefined>(undefined);
-  const { fetchMaterial } = useApi();
-  const visible = useVisible(material, search);
-
-  useEffect(() => {
-    fetchMaterial(materialId).then((nextMaterial) => {
-      setMaterial(nextMaterial);
-    });
-  }, [materialId]);
-
+function Row({ material }: Props) {
   const name = useMemo(() => {
     const textArea = document.createElement("textarea");
     textArea.innerHTML = material?.item.name ?? "";
     return textArea.value;
   }, [material]);
-
-  if (!visible) {
-    return null;
-  }
 
   return (
     <tr className="Row">

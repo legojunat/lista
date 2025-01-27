@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 
 import useApi from "../hooks/useApi";
+import { Material } from "../types/material";
 
 import Image from "./Image";
 import Row from "./Row";
@@ -13,14 +14,33 @@ interface Props {
 }
 
 function Parts({ showTable, search }: Props) {
-  const { categories, selectedCategoryIds } = useApi();
+  const { selectedMaterials } = useApi();
 
-  const materialIds = useMemo(() => {
-    return categories
-      .filter(({ categoryId }) => selectedCategoryIds.has(categoryId))
-      .map(({ materials }) => materials)
-      .flatMap((materials) => materials);
-  }, [categories, selectedCategoryIds]);
+  const selectedMaterialsWithSearch = useMemo(() => {
+    if (!search) {
+      return selectedMaterials;
+    }
+
+    return selectedMaterials.filter((material) => {
+      for (const key in material) {
+        const part = material[key as keyof Material];
+        if (part && typeof part === "object") {
+          const match: string | undefined = Object.values(part).find((value: string) => {
+            if (typeof value === "string" && value.toUpperCase().includes(search.toUpperCase())) {
+              return true;
+            }
+            return false;
+          });
+
+          if (match) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    });
+  }, [search, selectedMaterials]);
 
   return (
     <div className="Parts">
@@ -53,8 +73,8 @@ function Parts({ showTable, search }: Props) {
               </tr>
             </thead>
             <tbody>
-              {materialIds.map((materialId) => (
-                <Row key={materialId} materialId={materialId} search={search} />
+              {selectedMaterialsWithSearch.map((material) => (
+                <Row key={material.lugbulkData.material} material={material} />
               ))}
             </tbody>
           </table>
@@ -62,8 +82,8 @@ function Parts({ showTable, search }: Props) {
       )}
       {!showTable && (
         <div className="Parts-images">
-          {materialIds.map((materialId) => (
-            <Image key={materialId} materialId={materialId} search={search} />
+          {selectedMaterialsWithSearch.map((material) => (
+            <Image key={material.lugbulkData.material} material={material} />
           ))}
         </div>
       )}

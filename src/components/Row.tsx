@@ -62,6 +62,7 @@ function Row({ materialId, search }: Props) {
       <td>{material?.lugbulkData.material}</td>
       <td>{material?.lugbulkData.description}</td>
       <td>{material?.lugbulkData.colourId}</td>
+      <td>{material?.lugbulkData.price}</td>
     </tr>
   );
 }

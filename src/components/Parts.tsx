@@ -39,6 +39,7 @@ function Parts({ showTable, search }: Props) {
                 <th rowSpan={2}>Material</th>
                 <th rowSpan={2}>Description</th>
                 <th rowSpan={2}>Colour ID</th>
+                <th rowSpan={2}>Price</th>
               </tr>
               <tr>
                 <th>osakoodi</th>

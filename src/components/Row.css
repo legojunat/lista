@@ -21,6 +21,7 @@ tr.Row td {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+  min-width: 360px;
 }
 
 .Row-imageContainer {

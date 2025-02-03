@@ -12,6 +12,7 @@
     "pregenerate-backend": "npm run clean:backend",
     "generate-backend": "ts-node --project ./tsconfig.node.json ./scripts/generate-backend.ts",
     "generate-html": "ts-node --project ./tsconfig.node.json ./scripts/generate-printable-html.ts > ./print.html",
+    "generate-ordered-list-html": "ts-node --project ./tsconfig.node.json ./scripts/generate-ordered-list-html.ts > ./ordered-list.html",
     "start": "vite",
     "clean": "npm-run-all clean:*",
     "clean:build": "rimraf ./dist",

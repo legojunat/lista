@@ -1,5 +1,7 @@
 .env
 .DS_Store
+data/basebrick-ordered.csv
 dist
 node_modules
 lista.html
+ordered-list.html

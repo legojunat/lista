@@ -1,7 +1,9 @@
 .env
 .DS_Store
 data/basebrick-ordered.csv
+data/invcsv.csv
 dist
 node_modules
 lista.html
 ordered-list.html
+sumup.csv

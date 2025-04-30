@@ -13,6 +13,7 @@
     "generate-backend": "ts-node --project ./tsconfig.node.json ./scripts/generate-backend.ts",
     "generate-html": "ts-node --project ./tsconfig.node.json ./scripts/generate-printable-html.ts > ./print.html",
     "generate-ordered-list-html": "ts-node --project ./tsconfig.node.json ./scripts/generate-ordered-list-html.ts > ./ordered-list.html",
+    "generate-sumup-csv": "ts-node --project ./tsconfig.node.json ./scripts/invcsv-to-sumup.ts > ./sumup.csv",
     "start": "vite",
     "clean": "npm-run-all clean:*",
     "clean:build": "rimraf ./dist",

@@ -6,7 +6,8 @@ import path from "path";
 import { getAuthHeader } from "./oauth";
 import { processFile } from "./process-file";
 import { delay } from "./delay";
-import { BRICKLINK_BASE_URL } from "./constants";
+import { BRICKLINK_BASE_URL, BRICKLINK_API_TIMEOUT } from "./constants";
+import { formatTime } from "./format-time";
 
 interface BrickLinkItem {
   no: string;
@@ -34,30 +35,32 @@ interface BrickLinkItem {
   // row[1] => brickLinkPartId = 32002
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_header, ...rows] = await processFile(bricklinkLego);
-  const brickLinkPartIds = Array.from(new Set(rows.map((row) => row[1])));
-  console.info(`Info: Starting to fetch part data for ${brickLinkPartIds.length} parts`);
+  const brickLinkPartIds = Array.from(new Set(rows.map((row) => row[1]))).filter(Boolean);
+  const totalRows = brickLinkPartIds.length;
 
-  const output: string[] = [];
-  output.push(
-    [
-      "brickLinkPartId",
-      "name",
-      "type",
-      "categoryId",
-      "imageUrl",
-      "thumbnailUrl",
-      "weight",
-      "dimX",
-      "dimY",
-      "dimZ",
-      "yearReleased",
-      "isObsolete"
-    ].join('","')
-  );
-  for (const brickLinkPartId of brickLinkPartIds) {
-    if (!brickLinkPartId) {
-      continue;
-    }
+  const outputPath = path.resolve(__dirname, "../data/bricklink-item.csv");
+  const headerFields = [
+    "brickLinkPartId",
+    "name",
+    "type",
+    "categoryId",
+    "imageUrl",
+    "thumbnailUrl",
+    "weight",
+    "dimX",
+    "dimY",
+    "dimZ",
+    "yearReleased",
+    "isObsolete"
+  ];
+  fs.writeFileSync(outputPath, `"${headerFields.join('","')}"\n`, "utf8");
+
+  const requestDurations: number[] = [];
+  const scriptStartTime = Date.now();
+
+  for (let i = 0; i < totalRows; i++) {
+    const loopStartTime = Date.now();
+    const brickLinkPartId = brickLinkPartIds[i];
 
     const url = `${BRICKLINK_BASE_URL}/items/part/${brickLinkPartId}`;
     const method = "GET";
@@ -77,31 +80,55 @@ interface BrickLinkItem {
       item = response.data.data;
     } catch (error) {
       if (!axios.isAxiosError(error) || error.response?.status !== 404) {
-        console.log("Exitting due error", error);
+        console.log("\nExitting due error", error);
         process.exit();
       }
     }
 
-    output.push(
-      `"${[
-        item?.no ?? "",
-        item?.name ?? "",
-        item?.type ?? "",
-        item?.category_id ?? "",
-        item?.image_url ?? "",
-        item?.thumbnail_url ?? "",
-        item?.weight ?? "",
-        item?.dim_x ?? "",
-        item?.dim_y ?? "",
-        item?.dim_z ?? "",
-        item?.year_released ?? "",
-        item?.is_obsolete === true ? "1" : item?.is_obsolete === false ? "0" : ""
-      ].join('","')}"`
-    );
+    const line = `"${[
+      item?.no ?? "",
+      item?.name ?? "",
+      item?.type ?? "",
+      item?.category_id ?? "",
+      item?.image_url ?? "",
+      item?.thumbnail_url ?? "",
+      item?.weight ?? "",
+      item?.dim_x ?? "",
+      item?.dim_y ?? "",
+      item?.dim_z ?? "",
+      item?.year_released ?? "",
+      item?.is_obsolete === true ? "1" : item?.is_obsolete === false ? "0" : ""
+    ].join('","')}"`;
+    fs.appendFileSync(outputPath, line + "\n", "utf8");
 
-    await delay(1000);
+    const currentPercentage = Math.round(((i + 1) / totalRows) * 100);
+    let progressText = `Fetching item data for parts: ${i + 1}/${totalRows} (${currentPercentage}%)`;
+
+    const loopEndTime = Date.now();
+    const duration = loopEndTime - loopStartTime;
+    requestDurations.push(duration);
+    if (requestDurations.length > 10) {
+      requestDurations.shift();
+    }
+
+    if (i >= 9) {
+      const avgApiDuration = requestDurations.reduce((a, b) => a + b, 0) / requestDurations.length;
+      const avgLoopDuration = avgApiDuration + BRICKLINK_API_TIMEOUT;
+      const remainingItems = totalRows - (i + 1);
+      const remainingTimeMs = remainingItems * avgLoopDuration;
+      const elapsedTimeMs = Date.now() - scriptStartTime;
+      const totalTimeMs = elapsedTimeMs + remainingTimeMs;
+
+      progressText += ` - Elapsed: ${formatTime(elapsedTimeMs)}, Remaining: ${formatTime(
+        remainingTimeMs
+      )} (Total: ${formatTime(totalTimeMs)})`;
+    }
+
+    process.stdout.write(progressText.padEnd(120, " ") + "\r");
+
+    await delay(BRICKLINK_API_TIMEOUT);
   }
 
-  console.info("Info: Writing to data/bricklink-category.csv");
-  fs.writeFileSync(path.resolve(__dirname, "../data/bricklink-category.csv"), output.join("\n"), "utf8");
+  process.stdout.write("\n");
+  console.log(`Finished in ${formatTime(Date.now() - scriptStartTime)}.`);
 })();

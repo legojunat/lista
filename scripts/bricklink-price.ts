@@ -6,7 +6,8 @@ import path from "path";
 import { getAuthHeader } from "./oauth";
 import { processFile } from "./process-file";
 import { delay } from "./delay";
-import { BRICKLINK_BASE_URL } from "./constants";
+import { BRICKLINK_BASE_URL, BRICKLINK_API_TIMEOUT } from "./constants";
+import { formatTime } from "./format-time";
 
 export interface BrickLinkPart {
   item: {
@@ -43,23 +44,28 @@ export interface BrickLinkPart {
   // row[2] => brickLinkColorId = 2
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_header, ...rows] = await processFile(bricklinkFile);
-  console.info(`Info: Starting to fetch price data for ${rows.length} parts`);
+  const totalRows = rows.length;
 
-  const output: string[] = [];
-  output.push(
-    [
-      "material",
-      "brickLinkPartId",
-      "brickLinkColorId",
-      "minPrice",
-      "maxPrice",
-      "avgPrice",
-      "qtyAvgPrice",
-      "unitQuantity",
-      "totalQuantity"
-    ].join(",")
-  );
-  for (const [material, brickLinkPartId, brickLinkColorId] of rows) {
+  const outputPath = path.resolve(__dirname, "../data/bricklink-price.csv");
+  const header = [
+    "material",
+    "brickLinkPartId",
+    "brickLinkColorId",
+    "minPrice",
+    "maxPrice",
+    "avgPrice",
+    "qtyAvgPrice",
+    "unitQuantity",
+    "totalQuantity"
+  ].join(",");
+  fs.writeFileSync(outputPath, header + "\n", "utf8");
+
+  const requestDurations: number[] = [];
+  const scriptStartTime = Date.now();
+
+  for (let i = 0; i < totalRows; i++) {
+    const loopStartTime = Date.now();
+    const [material, brickLinkPartId, brickLinkColorId] = rows[i];
     const url =
       brickLinkPartId && brickLinkColorId
         ? `${BRICKLINK_BASE_URL}/items/part/${brickLinkPartId}/price?color_id=${brickLinkColorId}&guide_type=sold&region=eu`
@@ -81,12 +87,13 @@ export interface BrickLinkPart {
       info = response.data.data;
     } catch (error) {
       if (!axios.isAxiosError(error) || error.response?.status !== 404) {
-        console.log("Exitting due error", error);
+        console.log("\nExitting due error", error);
         process.exit();
       }
     }
 
-    output.push(
+    fs.appendFileSync(
+      outputPath,
       [
         material,
         brickLinkPartId ?? "",
@@ -97,12 +104,38 @@ export interface BrickLinkPart {
         info?.qty_avg_price ?? "",
         info?.unit_quantity ?? "",
         info?.total_quantity ?? ""
-      ].join(",")
+      ].join(",") + "\n",
+      "utf8"
     );
 
-    await delay(1000);
+    const currentPercentage = Math.round(((i + 1) / totalRows) * 100);
+    let progressText = `Fetching price data for parts: ${i + 1}/${totalRows} (${currentPercentage}%)`;
+
+    const loopEndTime = Date.now();
+    const duration = loopEndTime - loopStartTime;
+    requestDurations.push(duration);
+    if (requestDurations.length > 10) {
+      requestDurations.shift();
+    }
+
+    if (i >= 9) {
+      const avgApiDuration = requestDurations.reduce((a, b) => a + b, 0) / requestDurations.length;
+      const avgLoopDuration = avgApiDuration + BRICKLINK_API_TIMEOUT;
+      const remainingItems = totalRows - (i + 1);
+      const remainingTimeMs = remainingItems * avgLoopDuration;
+      const elapsedTimeMs = Date.now() - scriptStartTime;
+      const totalTimeMs = elapsedTimeMs + remainingTimeMs;
+
+      progressText += ` - Elapsed: ${formatTime(elapsedTimeMs)}, Remaining: ${formatTime(
+        remainingTimeMs
+      )} (Total: ${formatTime(totalTimeMs)})`;
+    }
+
+    process.stdout.write(progressText.padEnd(120, " ") + "\r");
+
+    await delay(BRICKLINK_API_TIMEOUT);
   }
 
-  console.info("Info: Writing to data/bricklink-price.csv");
-  fs.writeFileSync(path.resolve(__dirname, "../data/bricklink-price.csv"), output.join("\n"), "utf8");
+  process.stdout.write("\n");
+  console.log(`Finished in ${formatTime(Date.now() - scriptStartTime)}.`);
 })();

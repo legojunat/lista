@@ -4,7 +4,7 @@ import { Category } from "../types/category";
 import { Material } from "../types/material";
 import { Color } from "../types/color";
 
-const API_URL = "";
+const API_URL = (window as unknown as { API_URL: string }).API_URL ?? "/";
 const SELECTED_CATEGORY_IDS_KEY = "categoryIds";
 const INITIAL_SELECTED_CATEGORY_IDS =
   window.localStorage.getItem(SELECTED_CATEGORY_IDS_KEY)?.split(",").filter(Boolean) ?? [];
@@ -59,12 +59,12 @@ export function ApiProvider({ children }: Props) {
 
   useEffect(() => {
     const fetchCategoriesAsync = async () => {
-      const response = await axios.get<Category[]>(`${API_URL}/bricklink-categories.json`);
+      const response = await axios.get<Category[]>(`${API_URL}bricklink-categories.json`);
       setCategories(response.data.sort((a, b) => a.categoryName.localeCompare(b.categoryName)));
     };
 
     const fetchColorsAsync = async () => {
-      const response = await axios.get<Color[]>(`${API_URL}/colors.json`);
+      const response = await axios.get<Color[]>(`${API_URL}colors.json`);
       const nextColors = new Map<string, Color>();
       response.data.forEach((color) => {
         nextColors.set(color.bricklinkId, color);
@@ -110,7 +110,7 @@ export function ApiProvider({ children }: Props) {
       }
 
       try {
-        const response = await axios.get<CategoryMaterials>(`${API_URL}/category-materials/${categoryId}.json`);
+        const response = await axios.get<CategoryMaterials>(`${API_URL}category-materials/${categoryId}.json`);
         setMaterialsForCategory((currentMaterialsForCategory) => {
           const nextMaterialsForCategory = new Map(currentMaterialsForCategory);
           nextMaterialsForCategory.set(categoryId, response.data.materials);
@@ -147,7 +147,7 @@ export function ApiProvider({ children }: Props) {
       }
 
       try {
-        const response = await axios.get<Material>(`${API_URL}/materials/${materialId}.json`);
+        const response = await axios.get<Material>(`${API_URL}materials/${materialId}.json`);
         const nextMaterials = new Map(materials);
         nextMaterials.set(materialId, response.data);
         setMaterials(nextMaterials);

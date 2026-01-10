@@ -6,7 +6,8 @@ import path from "path";
 import { getAuthHeader } from "./oauth";
 import { processFile } from "./process-file";
 import { delay } from "./delay";
-import { BRICKLINK_BASE_URL } from "./constants";
+import { BRICKLINK_BASE_URL, BRICKLINK_API_TIMEOUT } from "./constants";
+import { formatTime } from "./format-time";
 
 interface Category {
   category_id: number;
@@ -24,11 +25,18 @@ interface Category {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_header, ...rows] = await processFile(bricklinkItem);
   const categories = Array.from(new Set(rows.map((row) => row[3]))).filter(Boolean);
-  console.info(`Info: Starting to fetch category names for ${categories.length} categories`);
+  const totalRows = categories.length;
 
-  const output: string[] = [];
-  output.push(["categoryId", "categoryName", "parentId"].join('","'));
-  for (const category of categories) {
+  const outputPath = path.resolve(__dirname, "../data/bricklink-category.csv");
+  const header = '"' + ["categoryId", "categoryName", "parentId"].join('","') + '"';
+  fs.writeFileSync(outputPath, header + "\n", "utf8");
+
+  const requestDurations: number[] = [];
+  const scriptStartTime = Date.now();
+
+  for (let i = 0; i < totalRows; i++) {
+    const loopStartTime = Date.now();
+    const category = categories[i];
     const url = `${BRICKLINK_BASE_URL}/categories/${category}`;
     const method = "GET";
 
@@ -47,16 +55,42 @@ interface Category {
       item = response.data.data;
     } catch (error) {
       if (!axios.isAxiosError(error) || error.response?.status !== 404) {
-        console.log("Exitting due error", error);
+        console.log("\nExitting due error", error);
         process.exit();
       }
     }
 
-    output.push(`"${[item?.category_id, item?.category_name, item?.parent_id].join('","')}"`);
+    const line = `"${[item?.category_id ?? "", item?.category_name ?? "", item?.parent_id ?? ""].join('","')}"`;
+    fs.appendFileSync(outputPath, line + "\n", "utf8");
 
-    await delay(1000);
+    const currentPercentage = Math.round(((i + 1) / totalRows) * 100);
+    let progressText = `Fetching category data: ${i + 1}/${totalRows} (${currentPercentage}%)`;
+
+    const loopEndTime = Date.now();
+    const duration = loopEndTime - loopStartTime;
+    requestDurations.push(duration);
+    if (requestDurations.length > 10) {
+      requestDurations.shift();
+    }
+
+    if (i >= 9) {
+      const avgApiDuration = requestDurations.reduce((a, b) => a + b, 0) / requestDurations.length;
+      const avgLoopDuration = avgApiDuration + BRICKLINK_API_TIMEOUT;
+      const remainingItems = totalRows - (i + 1);
+      const remainingTimeMs = remainingItems * avgLoopDuration;
+      const elapsedTimeMs = Date.now() - scriptStartTime;
+      const totalTimeMs = elapsedTimeMs + remainingTimeMs;
+
+      progressText += ` - Elapsed: ${formatTime(elapsedTimeMs)}, Remaining: ${formatTime(
+        remainingTimeMs
+      )} (Total: ${formatTime(totalTimeMs)})`;
+    }
+
+    process.stdout.write(progressText.padEnd(120, " ") + "\r");
+
+    await delay(BRICKLINK_API_TIMEOUT);
   }
 
-  console.info("Info: Writing to data/bricklink-category.csv");
-  fs.writeFileSync(path.resolve(__dirname, "../data/bricklink-category.csv"), output.join("\n"), "utf8");
+  process.stdout.write("\n");
+  console.log(`Finished in ${formatTime(Date.now() - scriptStartTime)}.`);
 })();

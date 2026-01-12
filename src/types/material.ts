@@ -20,7 +20,7 @@ export interface Item {
 }
 
 export interface LugbulkData {
-  onList2024: string;
+  onPreviousList: string;
   mainGroupTop: string;
   mainGroupSub: string;
   material: string;

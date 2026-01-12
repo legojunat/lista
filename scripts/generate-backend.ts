@@ -37,7 +37,7 @@ interface Price {
 }
 
 interface Data {
-  onList2024: string;
+  onPreviousList: string;
   mainGroupTop: string;
   mainGroupSub: string;
   material: string;
@@ -206,7 +206,7 @@ interface Data {
   const [_dataHeader, ...dataRows] = await processFile(lugbulkOriginalData);
   const rows: Data[] = dataRows.map(
     ([
-      onList2024 = "", // on list 2024 = 1
+      onPreviousList = "", // on previous list = 1
       mainGroupTop = "", // Main Group Top = TECHNIC
       mainGroupSub = "", // Main Group Sub = CONNECTING BUSH W/ A
       material = "", // Material = 6013938
@@ -217,9 +217,9 @@ interface Data {
       length = "", // Length (MM) = 12.100
       width = "", // Width (MM) = 5.600
       height = "", // Height (MM) = 5.900
-      price = "" // 2025 Prices (in EUR) = 1.23
+      price = "" // Price (in EUR) = 1.23
     ]) => ({
-      onList2024,
+      onPreviousList,
       mainGroupTop,
       mainGroupSub,
       material,
@@ -279,6 +279,17 @@ interface Data {
   const brickLinkCategories = categoryRows.map(([categoryId, categoryName]) => ({
     categoryId,
     categoryName,
+    bricklinkColorIds: Array.from(
+      new Set(
+        rowsWithBrickLinkMetadata
+          .filter((row) => row.categoryId === categoryId)
+          .map(({ material }) => {
+            const lego = legos.get(material);
+            return lego?.brickLinkColorId;
+          })
+          .filter(Boolean)
+      )
+    ),
     materials: rowsWithBrickLinkMetadata.filter((row) => row.categoryId === categoryId).map((row) => row.material)
   }));
   fs.writeFileSync(
@@ -293,6 +304,17 @@ interface Data {
     const categoryMaterials = {
       categoryId,
       categoryName,
+      bricklinkColorIds: Array.from(
+        new Set(
+          rowsWithBrickLinkMetadata
+            .filter((row) => row.categoryId === categoryId)
+            .map(({ material }) => {
+              const lego = legos.get(material);
+              return lego?.brickLinkColorId;
+            })
+            .filter(Boolean)
+        )
+      ),
       materials: rowsWithBrickLinkMetadata
         .filter((row) => row.categoryId === categoryId)
         .map((row) => {

@@ -14,3 +14,14 @@ export const processFile = async (file: string) => {
   }
   return records;
 };
+
+export const recordsToObjects = (rows: string[][]): Record<string, string>[] => {
+  if (!rows.length) return [];
+  const [header, ...data] = rows;
+  return data.map((row) =>
+    header.reduce<Record<string, string>>((acc, key, idx) => {
+      acc[key] = row[idx] ?? "";
+      return acc;
+    }, {})
+  );
+};

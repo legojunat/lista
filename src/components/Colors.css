@@ -1,0 +1,22 @@
+.Colors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.Colors .Colors-buttonWrapper {
+  border: 2px solid transparent;
+  padding: 1px;
+}
+
+.Colors .Colors-buttonWrapper.selected {
+  border-color: black;
+}
+
+.Colors button {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: none;
+}

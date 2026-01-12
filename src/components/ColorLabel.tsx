@@ -15,16 +15,12 @@ function ColorLabel({ brickLinkColorId }: Props) {
     return brickLinkColorId ? getColor(brickLinkColorId) : undefined;
   }, [getColor, brickLinkColorId]);
 
-  if (color) {
-    return (
-      <div className="ColorLabel">
-        <span style={{ backgroundColor: `#${color.hex}` }} className="ColorLabel-hex" />
-        {color.bricklinkName}
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="ColorLabel">
+      <span style={{ backgroundColor: color?.hex ? `#${color.hex}` : undefined }} className="ColorLabel-hex" />
+      {color?.bricklinkName ?? brickLinkColorId}
+    </div>
+  );
 }
 
 export default ColorLabel;

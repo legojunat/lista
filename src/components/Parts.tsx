@@ -14,14 +14,14 @@ interface Props {
 }
 
 function Parts({ showTable, search }: Props) {
-  const { selectedMaterials } = useApi();
+  const { selectedCategoryAndColorMaterials } = useApi();
 
-  const selectedMaterialsWithSearch = useMemo(() => {
+  const selectedCategoryAndColorMaterialsWithSearch = useMemo(() => {
     if (!search) {
-      return selectedMaterials;
+      return selectedCategoryAndColorMaterials;
     }
 
-    return selectedMaterials.filter((material) => {
+    return selectedCategoryAndColorMaterials.filter((material) => {
       for (const key in material) {
         const part = material[key as keyof Material];
         if (part && typeof part === "object") {
@@ -40,7 +40,7 @@ function Parts({ showTable, search }: Props) {
 
       return false;
     });
-  }, [search, selectedMaterials]);
+  }, [search, selectedCategoryAndColorMaterials]);
 
   return (
     <div className="Parts">
@@ -73,7 +73,7 @@ function Parts({ showTable, search }: Props) {
               </tr>
             </thead>
             <tbody>
-              {selectedMaterialsWithSearch.map((material) => (
+              {selectedCategoryAndColorMaterialsWithSearch.map((material) => (
                 <Row key={material.lugbulkData.material} material={material} />
               ))}
             </tbody>
@@ -82,7 +82,7 @@ function Parts({ showTable, search }: Props) {
       )}
       {!showTable && (
         <div className="Parts-images">
-          {selectedMaterialsWithSearch.map((material) => (
+          {selectedCategoryAndColorMaterialsWithSearch.map((material) => (
             <Image key={material.lugbulkData.material} material={material} />
           ))}
         </div>

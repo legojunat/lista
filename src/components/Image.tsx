@@ -19,12 +19,17 @@ function Image({ material }: Props) {
     if (material) {
       const textArea = document.createElement("textarea");
       textArea.innerHTML = material.item.name;
-      return [
+      const parts = [
         `${material.item.brickLinkPartId} ${textArea.value}`,
         `BL hinta (qty max): ${euroCents(material.price.qtyAvgPrice)}`,
-        `BL saatavuus (unit/total): ${formattedQuantity(material.price.unitQuantity)} / ${formattedQuantity(material.price.totalQuantity)}`,
-        `Lugbulk hinta: ${euroCents(getLugbulkPrice(material.lugbulkData.price))} (${euroCents(material.lugbulkData.price)})`
+        `BL saatavuus (unit/total): ${formattedQuantity(material.price.unitQuantity)} / ${formattedQuantity(material.price.totalQuantity)}`
       ];
+      if (material.lugbulkData.price) {
+        parts.push(
+          `Lugbulk hinta: ${euroCents(getLugbulkPrice(material.lugbulkData.price))} (${euroCents(material.lugbulkData.price)})`
+        );
+      }
+      return parts;
     }
 
     return [];

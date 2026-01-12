@@ -360,13 +360,10 @@ ${header
 ${rows
   .map((row) => {
     const material = row[3];
-    const legoColorId = row[5];
     const price = priceMap[material] || defaultPrice;
     const [brickLinkPartId, brickLinkColorId] = price;
 
-    const color =
-      (brickLinkColorId && colors.find((c) => c.bricklinkId === brickLinkColorId)) ??
-      colors.find((c) => c.legoAbbreviation.toUpperCase() === legoColorId);
+    const color = colors.find((c) => c.bricklinkId === brickLinkColorId);
 
     const url =
       brickLinkPartId && brickLinkColorId

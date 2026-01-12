@@ -8,9 +8,12 @@
 
 .Categories button {
   padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: none;
 }
 
 .Categories button.selected {
   color: white;
   background-color: green;
+  border-color: green;
 }

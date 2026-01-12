@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useApi from "../hooks/useApi";
 
 import Categories from "./Categories";
+import Colors from "./Colors";
 
 const SEARCH_CHANGE_THRESHOLD = 1000; // milliseconds
 
@@ -18,6 +19,7 @@ interface Props {
 function Header(props: Props) {
   const { showTable, setShowTable, setSearch } = props;
   const [categoriesVisible, setCategoriesVisible] = useState(false);
+  const [colorsVisible, setColorsVisible] = useState(false);
   const [internalSearchValue, setInternalSearchValue] = useState("");
   const { selectedCategoryIds } = useApi();
 
@@ -42,10 +44,26 @@ function Header(props: Props) {
 
   const toggleCategoriesVisible = useCallback(() => setCategoriesVisible((prev) => !prev), []);
 
+  const toggleColorsVisible = useCallback(() => setColorsVisible((prev) => !prev), []);
+
+  useEffect(() => {
+    if (categoriesVisible) {
+      setColorsVisible(false);
+    }
+  }, [categoriesVisible]);
+
+  useEffect(() => {
+    if (colorsVisible) {
+      setCategoriesVisible(false);
+    }
+  }, [colorsVisible]);
+
   const toggleCategoriesButtonLabel = useMemo(
     () => (categoriesVisible ? "Piilota kategoriat" : "Näytä kategoriat"),
     [categoriesVisible]
   );
+
+  const toggleColorsButtonLabel = useMemo(() => (colorsVisible ? "Piilota värit" : "Näytä värit"), [colorsVisible]);
 
   const selectedCategoriesLabel = useMemo(() => {
     if (selectedCategoryIds.size > 1) {
@@ -68,6 +86,7 @@ function Header(props: Props) {
       <div className="Header-toggleContainer">
         <button onClick={toggleShowTable}>{toggleShowTableButtonLabel}</button>
         <button onClick={toggleCategoriesVisible}>{toggleCategoriesButtonLabel}</button>
+        <button onClick={toggleColorsVisible}>{toggleColorsButtonLabel}</button>
         <span>{selectedCategoriesLabel}</span>
         <span>
           Haku:{" "}
@@ -80,6 +99,7 @@ function Header(props: Props) {
         </span>
       </div>
       {categoriesVisible && <Categories />}
+      {colorsVisible && <Colors />}
     </div>
   );
 }

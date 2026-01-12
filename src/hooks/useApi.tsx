@@ -8,13 +8,21 @@ const API_URL = (window as unknown as { API_URL: string }).API_URL ?? "/";
 const SELECTED_CATEGORY_IDS_KEY = "categoryIds";
 const INITIAL_SELECTED_CATEGORY_IDS =
   window.localStorage.getItem(SELECTED_CATEGORY_IDS_KEY)?.split(",").filter(Boolean) ?? [];
+const SELECTED_BRICKLINK_COLOR_IDS_KEY = "bricklinkColorIds";
+const INITIAL_SELECTED_BRICKLINK_COLOR_IDS =
+  window.localStorage.getItem(SELECTED_BRICKLINK_COLOR_IDS_KEY)?.split(",").filter(Boolean) ?? [];
 
 interface ApiContextType {
   categories: Category[];
   selectedCategoryIds: Set<string>;
-  selectedMaterials: Material[];
+  selectedCategoryMaterials: Material[];
+  selectedCategoryAndColorMaterials: Material[];
+  selectedBricklinkColorIds: Set<string>;
+  selectedCategoryColors: Color[];
   toggleSelectedCategoryId: (categoryId: string) => void;
   toggleSelectAllCategories: () => void;
+  toggleSelectedBricklinkColorId: (bricklinkColorId: string) => void;
+  toggleSelectAllBricklinkColorIds: () => void;
   fetchMaterial: (materialId: string) => Promise<Material | undefined>;
   getColor: (brickLinkColorId: string) => Color | undefined;
 }
@@ -22,9 +30,14 @@ interface ApiContextType {
 export const apiContextInitialValue: ApiContextType = {
   categories: [],
   selectedCategoryIds: new Set<string>(),
-  selectedMaterials: [],
+  selectedCategoryMaterials: [],
+  selectedCategoryAndColorMaterials: [],
+  selectedBricklinkColorIds: new Set<string>(),
+  selectedCategoryColors: [],
   toggleSelectedCategoryId: () => [],
   toggleSelectAllCategories: () => undefined,
+  toggleSelectedBricklinkColorId: () => [],
+  toggleSelectAllBricklinkColorIds: () => undefined,
   fetchMaterial: () => Promise.resolve(undefined),
   getColor: () => undefined
 };
@@ -44,18 +57,40 @@ interface Props {
 export function ApiProvider({ children }: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState(() => new Set<string>(INITIAL_SELECTED_CATEGORY_IDS));
+  const [selectedBricklinkColorIds, setSelectedBricklinkColorIds] = useState(
+    () => new Set<string>(INITIAL_SELECTED_BRICKLINK_COLOR_IDS)
+  );
   const [materials, setMaterials] = useState(() => new Map<string, Material>());
   const [materialsForCategory, setMaterialsForCategory] = useState(() => new Map<string, Material[]>());
   const [fetchingMaterialsForCategory, setFetchingMaterialsForCategory] = useState(false);
   const [colors, setColors] = useState(() => new Map<string, Color>());
 
-  const selectedMaterials = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return Array.from(materialsForCategory, ([_categoryId, materials]) => materials)
+  const selectedCategoryMaterials = useMemo(() => {
+    return Array.from(materialsForCategory, ([, materials]) => materials)
       .flatMap((materials) => materials)
       .filter((material) => selectedCategoryIds.has(material.item.categoryId))
       .sort((a, b) => a.item.brickLinkPartId.localeCompare(b.item.brickLinkPartId));
   }, [materialsForCategory, selectedCategoryIds]);
+
+  const selectedCategoryAndColorMaterials = useMemo(
+    () =>
+      selectedCategoryMaterials.filter(
+        (material) =>
+          selectedBricklinkColorIds.size === 0 || selectedBricklinkColorIds.has(material.price.brickLinkColorId)
+      ),
+    [selectedCategoryMaterials, selectedBricklinkColorIds]
+  );
+
+  const selectedCategoryColors = useMemo(() => {
+    const colorIds = new Set<string>();
+    selectedCategoryMaterials.forEach((material) => {
+      colorIds.add(material.price.brickLinkColorId);
+    });
+    return Array.from(colorIds)
+      .map((colorId) => colors.get(colorId))
+      .filter((color): color is Color => Boolean(color))
+      .sort((a, b) => a.bricklinkName.localeCompare(b.bricklinkName));
+  }, [selectedCategoryMaterials, colors]);
 
   useEffect(() => {
     const fetchCategoriesAsync = async () => {
@@ -101,6 +136,32 @@ export function ApiProvider({ children }: Props) {
       return new Set(allCategoryIds);
     });
   }, [categories]);
+
+  const toggleSelectedBricklinkColorId = useCallback((bricklinkColorId: string) => {
+    setSelectedBricklinkColorIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(bricklinkColorId)) {
+        next.delete(bricklinkColorId);
+      } else {
+        next.add(bricklinkColorId);
+      }
+      window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, Array.from(next).join(","));
+      return next;
+    });
+  }, []);
+
+  const toggleSelectAllBricklinkColorIds = useCallback(() => {
+    setSelectedBricklinkColorIds((prev) => {
+      if (prev.size === colors.size) {
+        window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, "");
+        return new Set<string>();
+      }
+
+      const allColorIds = Array.from(colors.keys());
+      window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, allColorIds.join(","));
+      return new Set(allColorIds);
+    });
+  }, [colors]);
 
   const fetchNextMaterialsForCategory = useCallback(
     async ([categoryId, ...nextCategoryIds]: string[]): Promise<void> => {
@@ -170,10 +231,15 @@ export function ApiProvider({ children }: Props) {
     <ApiContext.Provider
       value={{
         categories,
-        selectedMaterials,
+        selectedCategoryMaterials,
+        selectedCategoryAndColorMaterials,
         selectedCategoryIds,
+        selectedBricklinkColorIds,
+        selectedCategoryColors,
         toggleSelectedCategoryId,
         toggleSelectAllCategories,
+        toggleSelectedBricklinkColorId,
+        toggleSelectAllBricklinkColorIds,
         fetchMaterial,
         getColor
       }}

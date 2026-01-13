@@ -3,6 +3,7 @@ import axios from "axios";
 import { Category } from "../types/category";
 import { Material } from "../types/material";
 import { Color } from "../types/color";
+import useDebouncedValue from "./useDebouncedValue";
 
 const API_URL = (window as unknown as { API_URL: string }).API_URL ?? "/";
 const SELECTED_CATEGORY_IDS_KEY = "categoryIds";
@@ -65,20 +66,24 @@ export function ApiProvider({ children }: Props) {
   const [fetchingMaterialsForCategory, setFetchingMaterialsForCategory] = useState(false);
   const [colors, setColors] = useState(() => new Map<string, Color>());
 
+  const debouncedSelectedCategoryIds = useDebouncedValue(selectedCategoryIds, 200);
+  const debouncedSelectedBricklinkColorIds = useDebouncedValue(selectedBricklinkColorIds, 200);
+
   const selectedCategoryMaterials = useMemo(() => {
     return Array.from(materialsForCategory, ([, materials]) => materials)
       .flatMap((materials) => materials)
-      .filter((material) => selectedCategoryIds.has(material.item.categoryId))
+      .filter((material) => debouncedSelectedCategoryIds.has(material.item.categoryId))
       .sort((a, b) => a.item.brickLinkPartId.localeCompare(b.item.brickLinkPartId));
-  }, [materialsForCategory, selectedCategoryIds]);
+  }, [materialsForCategory, debouncedSelectedCategoryIds]);
 
   const selectedCategoryAndColorMaterials = useMemo(
     () =>
       selectedCategoryMaterials.filter(
         (material) =>
-          selectedBricklinkColorIds.size === 0 || selectedBricklinkColorIds.has(material.price.brickLinkColorId)
+          debouncedSelectedBricklinkColorIds.size === 0 ||
+          debouncedSelectedBricklinkColorIds.has(material.price.brickLinkColorId)
       ),
-    [selectedCategoryMaterials, selectedBricklinkColorIds]
+    [selectedCategoryMaterials, debouncedSelectedBricklinkColorIds]
   );
 
   const selectedCategoryColors = useMemo(() => {
@@ -166,7 +171,6 @@ export function ApiProvider({ children }: Props) {
   const fetchNextMaterialsForCategory = useCallback(
     async ([categoryId, ...nextCategoryIds]: string[]): Promise<void> => {
       if (!categoryId) {
-        setFetchingMaterialsForCategory(false);
         return;
       }
 
@@ -188,7 +192,6 @@ export function ApiProvider({ children }: Props) {
 
   useEffect(() => {
     if (fetchingMaterialsForCategory) {
-      // Only one fetching queue running concurrently
       console.warn("fetchingMaterialsForCategory is active, skipping fetch...");
       return;
     }

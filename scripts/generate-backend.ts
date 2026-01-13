@@ -1,50 +1,17 @@
 import fs from "fs";
 import path from "path";
 
-import { processFile } from "./process-file";
+import { processFile, recordsToObjects } from "./process-file";
 import { getColors } from "./colors";
 
-interface Item {
-  brickLinkPartId: string;
-  name: string;
-  type: string;
-  categoryId: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  weight: string;
-  dimX: string;
-  dimY: string;
-  dimZ: string;
-  yearReleased: string;
-  isObsolete: string;
-}
-
-interface Lego {
-  materialId: string;
-  brickLinkPartId: string;
-  brickLinkColorId: string;
-}
-
-interface Price {
-  brickLinkPartId: string;
-  brickLinkColorId: string;
-  minPrice: string;
-  avgPrice: string;
-  maxPrice: string;
-  qtyAvgPrice: string;
-  unitQuantity: string;
-  totalQuantity: string;
-}
-
 interface Data {
-  onPreviousList: string;
   mainGroupTop: string;
   mainGroupSub: string;
   material: string;
   description: string;
   colourId: string;
   communicationNumber: string;
-  grossWeight: string;
+  grossWeight?: string;
   length: string;
   width: string;
   height: string;
@@ -86,152 +53,67 @@ interface Data {
   const colors = await getColors();
 
   console.info("Info: Processing data/bricklink-category.csv");
+  const categoryRows = recordsToObjects(await processFile(categoryFile));
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_categoryHeader, ...categoryRows] = await processFile(categoryFile);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const categories = new Map<string, string>(
-    Object.entries(
-      categoryRows.reduce(
-        (prev, [categoryId, categoryName]) => ({
-          ...prev,
-          [categoryId]: categoryName
-        }),
-        {}
-      )
-    )
-  );
+  const categories = categoryRows.reduce((prev, curr) => {
+    if (curr.categoryId) {
+      const next = new Map(prev);
+      next.set(curr.categoryId, curr);
+      return next;
+    }
+    return prev;
+  }, new Map<string, Record<string, string>>());
 
   console.info("Info: Processing data/bricklink-item.csv");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_itemHeader, ...itemRows] = await processFile(itemFile);
-  const items = new Map<string, Item>(
-    Object.entries(
-      itemRows.reduce(
-        (
-          prev,
-          [
-            brickLinkPartId = "",
-            name = "",
-            type = "",
-            categoryId = "",
-            imageUrl = "",
-            thumbnailUrl = "",
-            weight = "",
-            dimX = "",
-            dimY = "",
-            dimZ = "",
-            yearReleased = "",
-            isObsolete = ""
-          ]
-        ) => ({
-          ...prev,
-          [brickLinkPartId]: {
-            brickLinkPartId,
-            name,
-            type,
-            categoryId,
-            imageUrl,
-            thumbnailUrl,
-            weight,
-            dimX,
-            dimY,
-            dimZ,
-            yearReleased,
-            isObsolete
-          }
-        }),
-        {}
-      )
-    )
-  );
+  const itemRows = recordsToObjects(await processFile(itemFile));
+  const items = itemRows.reduce((prev, curr) => {
+    if (curr.brickLinkPartId) {
+      const next = new Map(prev);
+      next.set(curr.brickLinkPartId, curr);
+      return next;
+    }
+    return prev;
+  }, new Map<string, Record<string, string>>());
 
   console.info("Info: Processing data/bricklink-lego.csv");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_legoHeader, ...legoRows] = await processFile(legoFile);
-  const legos = new Map<string, Lego>(
-    Object.entries(
-      legoRows.reduce(
-        (prev, [material = "", brickLinkPartId = "", brickLinkColorId = ""]) => ({
-          ...prev,
-          [material]: {
-            material,
-            brickLinkPartId,
-            brickLinkColorId
-          }
-        }),
-        {}
-      )
-    )
-  );
+  const legoRows = recordsToObjects(await processFile(legoFile));
+  const legos = legoRows.reduce((prev, curr) => {
+    if (curr.material) {
+      const next = new Map(prev);
+      next.set(curr.material, curr);
+      return next;
+    }
+    return prev;
+  }, new Map<string, Record<string, string>>());
 
   console.info("Info: Processing data/bricklink-price.csv");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_priceHeader, ...priceRows] = await processFile(priceFile);
-  const prices = new Map<string, Price>(
-    Object.entries(
-      priceRows.reduce(
-        (
-          prev,
-          [
-            material = "",
-            brickLinkPartId = "",
-            brickLinkColorId = "",
-            minPrice = "",
-            avgPrice = "",
-            maxPrice = "",
-            qtyAvgPrice = "",
-            unitQuantity = "",
-            totalQuantity = ""
-          ]
-        ) => ({
-          ...prev,
-          [material]: {
-            brickLinkPartId,
-            brickLinkColorId,
-            minPrice,
-            avgPrice,
-            maxPrice,
-            qtyAvgPrice,
-            unitQuantity,
-            totalQuantity
-          }
-        }),
-        {}
-      )
-    )
-  );
+  const priceRows = recordsToObjects(await processFile(priceFile));
+  const prices = priceRows.reduce((prev, curr) => {
+    if (curr.material) {
+      const next = new Map(prev);
+      next.set(curr.material, curr);
+      return next;
+    }
+    return prev;
+  }, new Map<string, Record<string, string>>());
 
   console.info("Info: Processing data/lugbulk-original-data.csv");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_dataHeader, ...dataRows] = await processFile(lugbulkOriginalData);
-  const rows: Data[] = dataRows.map(
-    ([
-      onPreviousList = "", // on previous list = 1
-      mainGroupTop = "", // Main Group Top = TECHNIC
-      mainGroupSub = "", // Main Group Sub = CONNECTING BUSH W/ A
-      material = "", // Material = 6013938
-      description = "", // Description = 1 1/2 M CONNECTING BUSH
-      colourId = "", // Colour ID = BRICK-YEL
-      communicationNumber = "", // Communication number = 32002
-      grossWeight = "", // Gross Weight (G) = 0.109
-      length = "", // Length (MM) = 12.100
-      width = "", // Width (MM) = 5.600
-      height = "", // Height (MM) = 5.900
-      price = "" // Price (in EUR) = 1.23
-    ]) => ({
-      onPreviousList,
-      mainGroupTop,
-      mainGroupSub,
-      material,
-      description,
-      colourId,
-      communicationNumber,
-      grossWeight,
-      length,
-      width,
-      height,
-      price
-    })
+  const dataRows = recordsToObjects(await processFile(lugbulkOriginalData));
+  const rows = dataRows.map(
+    (obj) =>
+      ({
+        mainGroupTop: obj["Main Group Top"] ?? "",
+        mainGroupSub: obj["Main Group Sub"] ?? "",
+        material: obj["Material"] ?? "",
+        description: obj["Description"] ?? "",
+        colourId: obj["Colour ID"] ?? "",
+        communicationNumber: obj["Communication number"] ?? "",
+        grossWeight: obj["Gross Weight (G)"] ?? "",
+        length: obj["Length (MM)"] ?? "",
+        width: obj["Width (MM)"] ?? "",
+        height: obj["Height (MM)"] ?? "",
+        price: obj["2025 Prices (in EUR)"] ?? ""
+      }) satisfies Data
   );
 
   // Rendereable categories based on Lugbulk data
@@ -276,7 +158,7 @@ interface Data {
     const categoryId = item?.categoryId;
     return { ...row, categoryId };
   });
-  const brickLinkCategories = categoryRows.map(([categoryId, categoryName]) => ({
+  const brickLinkCategories = categoryRows.map(({ categoryId, categoryName }) => ({
     categoryId,
     categoryName,
     bricklinkColorIds: Array.from(
@@ -300,7 +182,7 @@ interface Data {
 
   // Renderable categories based on BrickLink categories found in Lugbulk data
   console.info(`Info: Generating public/category-materials/*.json (${categoryRows.length} pcs)`);
-  for (const [categoryId, categoryName] of categoryRows) {
+  for (const { categoryId, categoryName } of categoryRows) {
     const categoryMaterials = {
       categoryId,
       categoryName,

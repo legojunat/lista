@@ -12,6 +12,12 @@
   margin-bottom: 1rem;
 }
 
+.Header-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
 .Header button {
   padding: 0.5rem;
 }
@@ -25,5 +31,9 @@
   .Header-toggleContainer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .Header-buttons {
+    flex-wrap: wrap;
   }
 }

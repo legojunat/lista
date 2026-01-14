@@ -33,10 +33,15 @@
 }
 
 .Parts-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+
+.Parts-images > * {
+  border-top: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
 }
 
 @media (max-width: 768px) {

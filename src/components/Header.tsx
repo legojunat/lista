@@ -84,11 +84,13 @@ function Header(props: Props) {
   return (
     <div className="Header">
       <div className="Header-toggleContainer">
-        <button onClick={toggleShowTable}>{toggleShowTableButtonLabel}</button>
-        <button onClick={toggleCategoriesVisible}>{toggleCategoriesButtonLabel}</button>
-        <button onClick={toggleColorsVisible} disabled={selectedCategoryIds.size === 0}>
-          {toggleColorsButtonLabel}
-        </button>
+        <div className="Header-buttons">
+          <button onClick={toggleShowTable}>{toggleShowTableButtonLabel}</button>
+          <button onClick={toggleCategoriesVisible}>{toggleCategoriesButtonLabel}</button>
+          <button onClick={toggleColorsVisible} disabled={selectedCategoryIds.size === 0}>
+            {toggleColorsButtonLabel}
+          </button>
+        </div>
         <span>{selectedCategoriesLabel}</span>
         <span>
           Haku:{" "}

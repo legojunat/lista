@@ -191,17 +191,23 @@ export function ApiProvider({ children }: Props) {
   );
 
   useEffect(() => {
+    const missingCategoryIds = Array.from(selectedCategoryIds).filter(
+      (categoryId) => !materialsForCategory.has(categoryId)
+    );
+    if (missingCategoryIds.length === 0) {
+      setFetchingMaterialsForCategory(false);
+      return;
+    }
+
     if (fetchingMaterialsForCategory) {
-      console.warn("fetchingMaterialsForCategory is active, skipping fetch...");
       return;
     }
 
     setFetchingMaterialsForCategory(true);
-    const missingCategoryIds = Array.from(selectedCategoryIds).filter(
-      (categoryId) => !materialsForCategory.has(categoryId)
-    );
-    fetchNextMaterialsForCategory(missingCategoryIds);
-  }, [fetchNextMaterialsForCategory, materialsForCategory, selectedCategoryIds]);
+    fetchNextMaterialsForCategory(missingCategoryIds).finally(() => {
+      setFetchingMaterialsForCategory(false);
+    });
+  }, [fetchNextMaterialsForCategory, materialsForCategory, selectedCategoryIds, fetchingMaterialsForCategory]);
 
   // Note! Not used at the moment
   const fetchMaterial = useCallback(

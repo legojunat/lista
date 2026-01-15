@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import classNames from "classnames";
 
 import useApi from "../hooks/useApi";
 import { Material } from "../types/material";
@@ -11,9 +12,10 @@ import "./Parts.css";
 interface Props {
   showTable: boolean;
   search: string;
+  zoomed: boolean;
 }
 
-function Parts({ showTable, search }: Props) {
+function Parts({ showTable, search, zoomed }: Props) {
   const { selectedCategoryAndColorMaterials } = useApi();
 
   const selectedCategoryAndColorMaterialsWithSearch = useMemo(() => {
@@ -81,9 +83,9 @@ function Parts({ showTable, search }: Props) {
         </div>
       )}
       {!showTable && (
-        <div className="Parts-images">
+        <div className={classNames("Parts-images", { zoomed })}>
           {selectedCategoryAndColorMaterialsWithSearch.map((material) => (
-            <Image key={material.lugbulkData.material} material={material} />
+            <Image key={material.lugbulkData.material} material={material} zoomed={zoomed} />
           ))}
         </div>
       )}

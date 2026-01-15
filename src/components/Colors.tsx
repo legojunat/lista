@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 
 import "./Colors.css";
@@ -23,9 +23,14 @@ function Colors() {
     toggleSelectAllBricklinkColorIds
   } = useApi();
 
+  const label = useMemo(
+    () => (selectedBricklinkColorIds.size === selectedCategoryColors.length ? "Poista kaikki" : "Valitse kaikki"),
+    [selectedBricklinkColorIds, selectedCategoryColors]
+  );
+
   return (
     <div className="Colors">
-      <button onClick={toggleSelectAllBricklinkColorIds}>Valitse kaikki</button>
+      <button onClick={toggleSelectAllBricklinkColorIds}>{label}</button>
       {selectedCategoryColors.map(({ bricklinkId, bricklinkName, hex }) => (
         <div
           key={bricklinkId}

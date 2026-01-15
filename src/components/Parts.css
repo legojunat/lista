@@ -34,9 +34,13 @@
 
 .Parts-images {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   border-right: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
+}
+
+.Parts-images.zoomed {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
 .Parts-images > * {

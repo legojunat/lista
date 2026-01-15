@@ -11,6 +11,7 @@ const INITIAL_SHOW_TABLE = window.localStorage.getItem(SHOW_TABLE_KEY) === "true
 function App() {
   const [showTable, setShowTable] = useState(INITIAL_SHOW_TABLE);
   const [search, setSearch] = useState("");
+  const [zoomed, setZoomed] = useState(false);
 
   useEffect(() => {
     window.localStorage.setItem(SHOW_TABLE_KEY, showTable ? "true" : "false");
@@ -19,8 +20,15 @@ function App() {
   return (
     <div className="App">
       <h1>Lista</h1>
-      <Header showTable={showTable} setShowTable={setShowTable} search={search} setSearch={setSearch} />
-      <Parts showTable={showTable} search={search} />
+      <Header
+        showTable={showTable}
+        setShowTable={setShowTable}
+        search={search}
+        setSearch={setSearch}
+        zoomed={zoomed}
+        setZoomed={setZoomed}
+      />
+      <Parts showTable={showTable} search={search} zoomed={zoomed} />
     </div>
   );
 }

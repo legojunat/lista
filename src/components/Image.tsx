@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import classNames from "classnames";
 
 import { Material } from "../types/material";
 
@@ -12,9 +13,10 @@ import { formattedQuantity } from "../utils/formatted-quantity";
 
 interface Props {
   material: Material;
+  zoomed: boolean;
 }
 
-function Image({ material }: Props) {
+function Image({ material, zoomed }: Props) {
   const bottomLabel = useMemo(() => {
     if (material) {
       const textArea = document.createElement("textarea");
@@ -36,7 +38,7 @@ function Image({ material }: Props) {
   }, [material]);
 
   return (
-    <div className="Image">
+    <div className={classNames("Image", { zoomed })}>
       <BrickLinkImage material={material} />
       <div className="Image-topLabel">
         <ColorLabel brickLinkColorId={material.price.brickLinkColorId} />

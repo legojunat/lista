@@ -96,7 +96,7 @@ function Header(props: Props) {
           <button onClick={toggleColorsVisible} disabled={selectedCategoryIds.size === 0}>
             {toggleColorsButtonLabel}
           </button>
-          <button onClick={toggleShowTable}>{showTable ? <TableIcon width={25} /> : <GridIcon width={25} />}</button>
+          <button onClick={toggleShowTable}>{showTable ? <GridIcon width={25} /> : <TableIcon width={25} />}</button>
           <button onClick={toggleZoomed}>{zoomed ? <ZoomOutIcon width={25} /> : <ZoomInIcon width={25} />}</button>
         </div>
         <span>{selectedCategoriesLabel}</span>

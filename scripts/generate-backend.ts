@@ -3,6 +3,7 @@ import path from "path";
 
 import { processFile, recordsToObjects } from "./process-file";
 import { getColors } from "./colors";
+import { encodePrice } from "./crypto-utils";
 
 interface Data {
   mainGroupTop: string;
@@ -112,7 +113,7 @@ interface Data {
         length: obj["Length (MM)"] ?? "",
         width: obj["Width (MM)"] ?? "",
         height: obj["Height (MM)"] ?? "",
-        price: obj["2025 Prices (in EUR)"] ?? ""
+        price: encodePrice(obj["2026 Prices (in EUR)"] ?? "")
       }) satisfies Data
   );
 

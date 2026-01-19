@@ -7,6 +7,7 @@ import { getLugbulkPrice } from "../utils/lugbulk-price";
 
 import ColorLabel from "./ColorLabel";
 import BrickLinkImage from "./BrickLinkImage";
+import { FEES } from "../constants";
 
 import "./Row.css";
 
@@ -20,6 +21,17 @@ function Row({ material }: Props) {
     textArea.innerHTML = material?.item.name ?? "";
     return textArea.value;
   }, [material]);
+
+  const lugbulkPrice = useMemo(() => {
+    return getLugbulkPrice(material?.lugbulkData.price);
+  }, [material]);
+
+  const lugbulkPriceWithFees = useMemo(() => {
+    if (lugbulkPrice) {
+      return lugbulkPrice * FEES;
+    }
+    return undefined;
+  }, [lugbulkPrice]);
 
   return (
     <tr className="Row">
@@ -41,11 +53,11 @@ function Row({ material }: Props) {
       <td>
         <div className="Row-name">{name}</div>
       </td>
-      <td>{euroCents(getLugbulkPrice(material?.lugbulkData.price))}</td>
+      <td>{euroCents(lugbulkPriceWithFees)}</td>
       <td>{material?.lugbulkData.material}</td>
       <td>{material?.lugbulkData.description}</td>
       <td>{material?.lugbulkData.colourId}</td>
-      <td>{material?.lugbulkData.price}</td>
+      <td>{euroCents(lugbulkPrice)}</td>
     </tr>
   );
 }

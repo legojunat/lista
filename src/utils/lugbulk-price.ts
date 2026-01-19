@@ -1,7 +1,10 @@
-export function getLugbulkPrice(input?: string | number) {
+import { decodePrice } from "./crypto";
+
+export function getLugbulkPrice(input: string): number | undefined {
   if (!input) {
-    return input;
+    return undefined;
   }
 
-  return Number(input) * 1.255 * 1.07;
+  const decodedPrice = typeof input === "string" ? decodePrice(input) : input;
+  return Number(decodedPrice);
 }

@@ -10,6 +10,7 @@ import "./Image.css";
 import { getLugbulkPrice } from "../utils/lugbulk-price";
 import { euroCents } from "../utils/euro-cents";
 import { formattedQuantity } from "../utils/formatted-quantity";
+import { FEES } from "../constants";
 
 interface Props {
   material: Material;
@@ -21,15 +22,14 @@ function Image({ material, zoomed }: Props) {
     if (material) {
       const textArea = document.createElement("textarea");
       textArea.innerHTML = material.item.name;
+      const lugbulkPrice = getLugbulkPrice(material.lugbulkData.price);
       const parts = [
         `${material.item.brickLinkPartId} ${textArea.value}`,
         `BL hinta (qty max): ${euroCents(material.price.qtyAvgPrice)}`,
         `BL saatavuus (unit/total): ${formattedQuantity(material.price.unitQuantity)} / ${formattedQuantity(material.price.totalQuantity)}`
       ];
-      if (material.lugbulkData.price) {
-        parts.push(
-          `Lugbulk hinta: ${euroCents(getLugbulkPrice(material.lugbulkData.price))} (${euroCents(material.lugbulkData.price)})`
-        );
+      if (lugbulkPrice) {
+        parts.push(`Lugbulk hinta: ${euroCents(lugbulkPrice * FEES)} (${euroCents(lugbulkPrice)})`);
       }
       return parts;
     }

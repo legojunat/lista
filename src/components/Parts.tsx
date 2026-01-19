@@ -8,6 +8,7 @@ import Image from "./Image";
 import Row from "./Row";
 
 import "./Parts.css";
+import { FEES } from "../constants";
 
 interface Props {
   showTable: boolean;
@@ -61,7 +62,7 @@ function Parts({ showTable, search, zoomed }: Props) {
                 <th rowSpan={2}>Material</th>
                 <th rowSpan={2}>Description</th>
                 <th rowSpan={2}>Colour ID</th>
-                <th rowSpan={2}>Price</th>
+                <th rowSpan={2}>LB hinta</th>
               </tr>
               <tr>
                 <th>osakoodi</th>
@@ -71,7 +72,7 @@ function Parts({ showTable, search, zoomed }: Props) {
                 <th>qty avg</th>
                 <th>unit</th>
                 <th>total</th>
-                <th>ALV&P</th>
+                <th>* {FEES.toFixed(3)}</th>
               </tr>
             </thead>
             <tbody>

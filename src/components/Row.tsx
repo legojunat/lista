@@ -33,6 +33,10 @@ function Row({ material }: Props) {
     return undefined;
   }, [lugbulkPrice]);
 
+  const unitQuantity = useMemo(() => {
+    return Number(material?.price.unitQuantity);
+  }, [material]);
+
   return (
     <tr className="Row">
       <td>
@@ -44,12 +48,18 @@ function Row({ material }: Props) {
         <ColorLabel brickLinkColorId={material?.price.brickLinkColorId} />
       </td>
       <td>{material?.price.brickLinkPartId}</td>
-      <td>{euroCents(material?.price.minPrice)}</td>
-      <td>{euroCents(material?.price.avgPrice)}</td>
-      <td>{euroCents(material?.price.maxPrice)}</td>
-      <td>{euroCents(material?.price.qtyAvgPrice)}</td>
-      <td>{formattedQuantity(material?.price.unitQuantity)}</td>
-      <td>{formattedQuantity(material?.price.totalQuantity)}</td>
+      {unitQuantity ? (
+        <>
+          <td>{euroCents(material?.price.minPrice)}</td>
+          <td>{euroCents(material?.price.avgPrice)}</td>
+          <td>{euroCents(material?.price.maxPrice)}</td>
+          <td>{euroCents(material?.price.qtyAvgPrice)}</td>
+          <td>{formattedQuantity(material?.price.unitQuantity)}</td>
+          <td>{formattedQuantity(material?.price.totalQuantity)}</td>
+        </>
+      ) : (
+        <td colSpan={6}>-</td>
+      )}
       <td>
         <div className="Row-name">{name}</div>
       </td>

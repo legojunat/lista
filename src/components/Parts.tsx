@@ -28,6 +28,9 @@ function Parts({ showTable, search, zoomed }: Props) {
       for (const key in material) {
         const part = material[key as keyof Material];
         if (part && typeof part === "object") {
+          if (search === "NO_BRICKLINK") {
+            return material.price.totalQuantity === "0";
+          }
           const match: string | undefined = Object.values(part).find((value: string) => {
             if (typeof value === "string" && value.toUpperCase().includes(search.toUpperCase())) {
               return true;

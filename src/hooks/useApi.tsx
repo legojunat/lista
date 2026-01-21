@@ -4,14 +4,9 @@ import { Category } from "../types/category";
 import { Material } from "../types/material";
 import { Color } from "../types/color";
 import useDebouncedValue from "./useDebouncedValue";
+import useLocalStorage from "./useLocalStorage";
 
 const API_URL = (window as unknown as { API_URL: string }).API_URL ?? "/";
-const SELECTED_CATEGORY_IDS_KEY = "categoryIds";
-const INITIAL_SELECTED_CATEGORY_IDS =
-  window.localStorage.getItem(SELECTED_CATEGORY_IDS_KEY)?.split(",").filter(Boolean) ?? [];
-const SELECTED_BRICKLINK_COLOR_IDS_KEY = "bricklinkColorIds";
-const INITIAL_SELECTED_BRICKLINK_COLOR_IDS =
-  window.localStorage.getItem(SELECTED_BRICKLINK_COLOR_IDS_KEY)?.split(",").filter(Boolean) ?? [];
 
 interface ApiContextType {
   categories: Category[];
@@ -57,9 +52,10 @@ interface Props {
 
 export function ApiProvider({ children }: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState(() => new Set<string>(INITIAL_SELECTED_CATEGORY_IDS));
-  const [selectedBricklinkColorIds, setSelectedBricklinkColorIds] = useState(
-    () => new Set<string>(INITIAL_SELECTED_BRICKLINK_COLOR_IDS)
+  const [selectedCategoryIds, setSelectedCategoryIds] = useLocalStorage<Set<string>>("categoryIds", new Set());
+  const [selectedBricklinkColorIds, setSelectedBricklinkColorIds] = useLocalStorage<Set<string>>(
+    "bricklinkColorIds",
+    new Set()
   );
   const [materials, setMaterials] = useState(() => new Map<string, Material>());
   const [materialsForCategory, setMaterialsForCategory] = useState(() => new Map<string, Material[]>());
@@ -70,11 +66,23 @@ export function ApiProvider({ children }: Props) {
   const debouncedSelectedBricklinkColorIds = useDebouncedValue(selectedBricklinkColorIds, 200);
 
   const selectedCategoryMaterials = useMemo(() => {
+    const categoryMap = new Map(categories.map((cat) => [cat.categoryId, cat.categoryName]));
+
     return Array.from(materialsForCategory, ([, materials]) => materials)
       .flatMap((materials) => materials)
       .filter((material) => debouncedSelectedCategoryIds.has(material.item.categoryId))
-      .sort((a, b) => a.item.brickLinkPartId.localeCompare(b.item.brickLinkPartId));
-  }, [materialsForCategory, debouncedSelectedCategoryIds]);
+      .sort((a, b) => {
+        const categoryNameA = categoryMap.get(a.item.categoryId) || "";
+        const categoryNameB = categoryMap.get(b.item.categoryId) || "";
+        const categoryComparison = categoryNameA.localeCompare(categoryNameB);
+
+        if (categoryComparison !== 0) {
+          return categoryComparison;
+        }
+
+        return a.item.name.localeCompare(b.item.name);
+      });
+  }, [materialsForCategory, debouncedSelectedCategoryIds, categories]);
 
   const selectedCategoryAndColorMaterials = useMemo(
     () =>
@@ -116,57 +124,57 @@ export function ApiProvider({ children }: Props) {
     fetchColorsAsync();
   }, []);
 
-  const toggleSelectedCategoryId = useCallback((categoryId: string) => {
-    setSelectedCategoryIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(categoryId)) {
-        next.delete(categoryId);
-      } else {
-        next.add(categoryId);
-      }
-      window.localStorage.setItem(SELECTED_CATEGORY_IDS_KEY, Array.from(next).join(","));
-      return next;
-    });
-  }, []);
+  const toggleSelectedCategoryId = useCallback(
+    (categoryId: string) => {
+      setSelectedCategoryIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(categoryId)) {
+          next.delete(categoryId);
+        } else {
+          next.add(categoryId);
+        }
+        return next;
+      });
+    },
+    [setSelectedCategoryIds]
+  );
 
   const toggleSelectAllCategories = useCallback(() => {
     setSelectedCategoryIds((prev) => {
       if (prev.size === categories.length) {
-        window.localStorage.setItem(SELECTED_CATEGORY_IDS_KEY, "");
         return new Set<string>();
       }
 
       const allCategoryIds = categories.map(({ categoryId }) => categoryId);
-      window.localStorage.setItem(SELECTED_CATEGORY_IDS_KEY, allCategoryIds.join(","));
       return new Set(allCategoryIds);
     });
-  }, [categories]);
+  }, [categories, setSelectedCategoryIds]);
 
-  const toggleSelectedBricklinkColorId = useCallback((bricklinkColorId: string) => {
-    setSelectedBricklinkColorIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(bricklinkColorId)) {
-        next.delete(bricklinkColorId);
-      } else {
-        next.add(bricklinkColorId);
-      }
-      window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, Array.from(next).join(","));
-      return next;
-    });
-  }, []);
+  const toggleSelectedBricklinkColorId = useCallback(
+    (bricklinkColorId: string) => {
+      setSelectedBricklinkColorIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(bricklinkColorId)) {
+          next.delete(bricklinkColorId);
+        } else {
+          next.add(bricklinkColorId);
+        }
+        return next;
+      });
+    },
+    [setSelectedBricklinkColorIds]
+  );
 
   const toggleSelectAllBricklinkColorIds = useCallback(() => {
     setSelectedBricklinkColorIds((prev) => {
       if (prev.size === colors.size) {
-        window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, "");
         return new Set<string>();
       }
 
       const allColorIds = Array.from(colors.keys());
-      window.localStorage.setItem(SELECTED_BRICKLINK_COLOR_IDS_KEY, allColorIds.join(","));
       return new Set(allColorIds);
     });
-  }, [colors]);
+  }, [colors, setSelectedBricklinkColorIds]);
 
   const fetchNextMaterialsForCategory = useCallback(
     async ([categoryId, ...nextCategoryIds]: string[]): Promise<void> => {

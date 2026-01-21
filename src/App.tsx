@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Header from "./components/Header";
 import Parts from "./components/Parts";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 import "./App.css";
 
-const SHOW_TABLE_KEY = "showTable";
-const INITIAL_SHOW_TABLE = window.localStorage.getItem(SHOW_TABLE_KEY) === "true";
-
 function App() {
-  const [showTable, setShowTable] = useState(INITIAL_SHOW_TABLE);
+  const [showTable, setShowTable] = useLocalStorage("showTable", false);
   const [search, setSearch] = useState("");
-  const [zoomed, setZoomed] = useState(false);
-
-  useEffect(() => {
-    window.localStorage.setItem(SHOW_TABLE_KEY, showTable ? "true" : "false");
-  }, [showTable]);
+  const [zoomed, setZoomed] = useLocalStorage("zoomed", false);
 
   return (
     <div className="App">

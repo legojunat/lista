@@ -24,7 +24,7 @@ function Image({ material, zoomed }: Props) {
       textArea.innerHTML = material.item.name;
       const lugbulkPrice = getLugbulkPrice(material.lugbulkData.price);
       const parts = [
-        `${material.item.brickLinkPartId} ${textArea.value}`,
+        `<b>${material.item.brickLinkPartId}</b> ${textArea.value}`,
         `BL hinta (qty max): ${euroCents(material.price.qtyAvgPrice)}`,
         `BL saatavuus (unit/total): ${formattedQuantity(material.price.unitQuantity)} / ${formattedQuantity(material.price.totalQuantity)}`
       ];
@@ -39,13 +39,15 @@ function Image({ material, zoomed }: Props) {
 
   return (
     <div className={classNames("Image", { zoomed })}>
-      <BrickLinkImage material={material} />
+      <div className="Image-imageWrapper">
+        <BrickLinkImage material={material} />
+      </div>
       <div className="Image-topLabel">
         <ColorLabel brickLinkColorId={material.price.brickLinkColorId} />
       </div>
       <div className="Image-bottomLabel">
         {bottomLabel.map((value, index) => (
-          <div key={index}>{value}</div>
+          <div key={index} dangerouslySetInnerHTML={{ __html: value }} />
         ))}
       </div>
     </div>

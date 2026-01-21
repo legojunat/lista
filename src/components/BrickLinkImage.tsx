@@ -3,6 +3,8 @@ import { useInView } from "react-intersection-observer";
 
 import { Material } from "../types/material";
 
+import "./BrickLinkImage.css";
+
 const BRICKLINK_IMAGE_URL = "https://img.bricklink.com/ItemImage";
 
 interface Props {
@@ -36,7 +38,7 @@ function BrickLinkImage({ material }: Props) {
   }, [brickLinkPartId]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="BrickLinkImage">
       {inView && !fallbackImage && imageUrl && <img src={imageUrl} onError={() => setFallbackImage(true)} />}
       {inView && !fallbackImage && !imageUrl && fallbackImageUrl && <img src={fallbackImageUrl} />}
       {inView && fallbackImage && fallbackImageUrl && <img src={fallbackImageUrl} />}

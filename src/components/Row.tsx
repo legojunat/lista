@@ -39,15 +39,15 @@ function Row({ material }: Props) {
 
   return (
     <tr className="Row">
-      <td>
-        <div className="Row-imageContainer">
-          <BrickLinkImage material={material} />
-        </div>
+      <td className="Row-imageCell">
+        <BrickLinkImage material={material} />
       </td>
-      <td>
+      <td className="Row-colorCell">
         <ColorLabel brickLinkColorId={material?.price.brickLinkColorId} />
       </td>
-      <td>{material?.price.brickLinkPartId}</td>
+      <td className="Row-partIdCell">
+        <b>{material?.price.brickLinkPartId}</b>
+      </td>
       {unitQuantity ? (
         <>
           <td>{euroCents(material?.price.minPrice)}</td>

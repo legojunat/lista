@@ -27,6 +27,37 @@
   width: 10rem;
 }
 
+.Header-searchContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Header-searchContainer input {
+  padding-right: 2.5rem;
+}
+
+.Header-clearSearch {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.Header-clearSearch:hover {
+  color: #000;
+}
+
 @media (max-width: 768px) {
   .Header-toggleContainer {
     flex-direction: column;

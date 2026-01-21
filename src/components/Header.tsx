@@ -32,21 +32,21 @@ function Header(props: Props) {
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
-      setSearch(internalSearchValue);
+      setSearch(internalSearchValue.trim());
     }, SEARCH_CHANGE_THRESHOLD);
 
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [internalSearchValue]);
+  }, [internalSearchValue, setSearch]);
 
   const fastSubmit = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
-        setSearch(internalSearchValue);
+        setSearch(internalSearchValue.trim());
       }
     },
-    [internalSearchValue]
+    [internalSearchValue, setSearch]
   );
 
   const toggleCategoriesVisible = useCallback(() => setCategoriesVisible((prev) => !prev), []);
@@ -88,6 +88,11 @@ function Header(props: Props) {
 
   const toggleZoomed = useCallback(() => setZoomed((prev) => !prev), []);
 
+  const clearSearch = useCallback(() => {
+    setInternalSearchValue("");
+    setSearch("");
+  }, [setSearch]);
+
   return (
     <div className="Header">
       <div className="Header-toggleContainer">
@@ -100,7 +105,7 @@ function Header(props: Props) {
           <button onClick={toggleZoomed}>{zoomed ? <ZoomOutIcon width={25} /> : <ZoomInIcon width={25} />}</button>
         </div>
         <span>{selectedCategoriesLabel}</span>
-        <span>
+        <span className="Header-searchContainer">
           Haku:{" "}
           <input
             type="text"
@@ -108,6 +113,11 @@ function Header(props: Props) {
             onChange={(event) => setInternalSearchValue(event.target.value)}
             onKeyDown={fastSubmit}
           />
+          {internalSearchValue && (
+            <button onClick={clearSearch} className="Header-clearSearch">
+              ×
+            </button>
+          )}
         </span>
       </div>
       {categoriesVisible && <Categories />}

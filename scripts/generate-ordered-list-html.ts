@@ -19,8 +19,7 @@ const anotherMap: Record<string, Part> = {
 };
 
 const skipMap: Record<string, string> = {
-  "5264": "./img/5264_black.png",
-  "6798": "./img/6798_white.png"
+  "5264": "./img/5264_black.png"
 };
 
 (async function () {

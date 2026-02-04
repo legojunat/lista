@@ -96,7 +96,9 @@ const skipMap: Record<string, string> = {
 
       img {
         display: block;
-        width: 100px;
+        max-width: 200px;
+        max-height: 120px;
+        width: auto;
         height: auto;
         object-fit: contain;
         margin-right: 20px;

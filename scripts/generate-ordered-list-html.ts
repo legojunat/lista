@@ -19,7 +19,8 @@ const anotherMap: Record<string, Part> = {
 };
 
 const skipMap: Record<string, string> = {
-  "5264": "./img/5264_black.png"
+  "5264": "./img/5264_black.png",
+  "6798": "./img/6798_white.png"
 };
 
 (async function () {
@@ -51,12 +52,12 @@ const skipMap: Record<string, string> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_orderedHeader, ...orderedRows] = await processFile(orderedFile);
   const orderedMaterials = orderedRows.map((orderedRow) => {
-    const part = orderedRow[1];
+    const part = orderedRow[2];
     if (skipMap[part]) {
       return { file: skipMap[part] };
     }
 
-    const materials = orderedRow[3].split(/\s+/);
+    const materials = orderedRow[1].split(/\s+/);
     for (const material of materials) {
       if (priceMap[material]) {
         return priceMap[material];

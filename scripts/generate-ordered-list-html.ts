@@ -101,18 +101,23 @@ const skipMap: Record<string, string> = {
         height: auto;
         object-fit: contain;
         margin-right: 20px;
+        margin-bottom: 10px;
+      }
+
+      img.wrongcolor {
+        border: 2px solid red;
       }
     </style>
   </head>
   <body>
     <h1>Palikkatakomo</h1>${orderedMaterials
-      .map(({ brickLinkPartId, brickLinkColorId, file }) =>
+      .map(({ brickLinkPartId, brickLinkColorId, file }, index) =>
         brickLinkPartId && brickLinkColorId
           ? `
     <img src="${BRICKLINK_IMAGE_URL}/PN/${brickLinkColorId}/${brickLinkPartId}.png" />`
           : brickLinkPartId
             ? `
-    <img src="${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png" />`
+    <img src="${BRICKLINK_IMAGE_URL}/PL/${brickLinkPartId}.png" class="wrongcolor" /><!-- ${index + 1} -->`
             : `
     <img src="${file}" />`
       )
